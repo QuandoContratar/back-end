@@ -1,4 +1,4 @@
-package project.api.user.data
+package project.api.app.users.data
 
 enum class LevelAccess(val access: String) {
     ADMIN("administrator"),

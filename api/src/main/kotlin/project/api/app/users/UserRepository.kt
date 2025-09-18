@@ -1,8 +1,8 @@
-package project.api.user
+package project.api.app.users
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
-import project.api.user.data.User
+import project.api.app.users.data.User
 
 @Repository
 interface UserRepository:JpaRepository<User, Int>

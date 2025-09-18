@@ -14,7 +14,7 @@ import kotlin.reflect.full.memberProperties
 
 @Service
 abstract class CrudService<T : Any>(
-    val repository: JpaRepository<T, Int>,
+    val repository: JpaRepository<T, Int>
 ) {
     fun findAll( // TODO: receber um criteria builder e fazer oq ter q fazer
         example:T?,
@@ -22,7 +22,6 @@ abstract class CrudService<T : Any>(
     ):List<T> {
         if (example == null){
             val list:List<T> = repository.findAll();
-            ArrayUtils.validateArray(list);
 
             return list;
         }
@@ -32,6 +31,21 @@ abstract class CrudService<T : Any>(
 
         return list;
     }
+
+//    fun <R> findAll(
+//        example: T? = null,
+//        ignoreCase: Boolean = false,
+//        transform: ((T) -> R)? = null
+//    ): List<R> {
+//        val list = if (example == null) {
+//            repository.findAll()
+//        } else {
+//            val filter:Example<T> = filterCombiner(example, ignoreCase)
+//            repository.findAll(filter)
+//        }
+//
+//        return if (transform != null) list.map(transform) else list as List<R>
+//    }
 
     private fun filterCombiner(example:T, ignoreCase:Boolean):Example<T>{
         val properties = example::class.members.filterIsInstance<KProperty1<T, *>>();
