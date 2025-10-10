@@ -17,7 +17,7 @@ data class Vacancy(
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null,
 
-    val position: String? = null,
+    val position_job: String? = null,
 
     val period: String? = null,
 
@@ -26,7 +26,8 @@ data class Vacancy(
 
     val requirements: String? = null,
 
-    val contractType: String? = null, // Enum não definido, ajuste conforme necessário
+    @Enumerated(EnumType.STRING)
+    val contractType: ContractType? = null,
 
     val salary: Double? = null,
 
