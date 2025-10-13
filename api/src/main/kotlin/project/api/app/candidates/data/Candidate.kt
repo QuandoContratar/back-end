@@ -1,4 +1,4 @@
-package project.api.app.users.data
+package project.api.app.candidates.data
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

@@ -1,7 +1,7 @@
 package project.api.app.vacancies.data
 
 import jakarta.persistence.*
-import project.api.app.users.data.Candidate
+import project.api.app.candidates.data.Candidate
 import project.api.app.users.data.User
 
 @Entity
