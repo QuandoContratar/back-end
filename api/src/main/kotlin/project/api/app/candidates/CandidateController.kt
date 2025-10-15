@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
 import project.api.core.CrudController
 
@@ -46,5 +47,12 @@ class CandidateController (
             candidateService.saveResumeOnly(file)
         }
         return ResponseEntity.ok(candidates)
+    }
+
+    @GetMapping("/candidatesList")
+    fun listCandidates(): ResponseEntity<List<CandidateCardDTO>>{
+        val candidates = candidateService.listAllCandidates()
+        return ResponseEntity.ok(candidates)
+
     }
 }

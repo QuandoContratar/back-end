@@ -6,4 +6,6 @@ import project.api.app.candidates.data.Candidate
 
 
 @Repository
-interface CandidateRepository:JpaRepository<Candidate, Int>
+interface CandidateRepository:JpaRepository<Candidate, Int>{
+
+}

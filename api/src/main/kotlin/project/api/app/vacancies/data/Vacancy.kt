@@ -15,7 +15,7 @@ import project.api.app.users.data.User
 @Table(name = "vacancies")
 data class Vacancy(
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,
+    val id_vacancy: Int? = null,
 
     val position_job: String? = null,
 
