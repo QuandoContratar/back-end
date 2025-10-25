@@ -21,7 +21,7 @@ create table candidate(
 `profile_picture` BLOB,
 `education`varchar(500),
 `skills`varchar(500),
-`resume` MEDIUMBLOB
+`resume` MEDIUMBLOB,
 );
 
 -- CREATE TABLE file_metadata(
@@ -34,6 +34,19 @@ create table candidate(
 -- `id_user_upload` int,
 -- `created_at` date('dd/mm/yyyy')
 -- ); 
+
+-- CREATE TABLE file_metadata (
+--   id_file INT AUTO_INCREMENT PRIMARY KEY,
+--   file_name VARCHAR(255) NOT NULL,
+--   file_type VARCHAR(50), -- pdf, docx, jpg, png, etc.
+--   bucket VARCHAR(100),   -- ex: local, s3, azure_blob
+--   status ENUM('ativo', 'inativo', 'excluido') DEFAULT 'ativo',
+--   action ENUM('upload', 'download', 'delete') DEFAULT 'upload',
+--   file_key VARCHAR(255), -- chave única (pode ser path ou hash)
+--   id_user_upload INT,
+--   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+--   FOREIGN KEY (id_user_upload) REFERENCES user(id_user)
+-- );
 
 CREATE TABLE vacancies(
 `id_vacancy` int auto_increment primary key,
@@ -82,6 +95,24 @@ CREATE TABLE selection_process (
 );
 
 
+create table opening_requests (
+  `id` int auto_increment primary key,
+  `cargo` varchar(100) not null,
+  `periodo` varchar(50) not null,
+  `modelo_trabalho` varchar(50) not null,
+  `regime_contratacao` varchar(50) not null,
+  `salario` decimal(10,2) not null,
+  `localidade` varchar(100) not null,
+  `requisitos` text,
+  `justificativa_path` varchar(255),
+  `gestor_id` int not null,
+  status enum('ENTRADA','ABERTA','APROVADA','REJEITADA','CANCELADA') default 'ENTRADA',
+  `created_at` datetime default current_timestamp,
+  foreign key (gestor_id) references user(id_user)
+);
+
+
+
 select * from candidate;
 
 INSERT INTO candidate (name, birth, phone_number, email, state, education, skills)
@@ -96,11 +127,28 @@ VALUES
 
 ('Lucas Pereira', '1999-08-30', '(41)95678-9012', 'lucas.pereira@example.com', 'PR', 'Ciência da Computação', 'Kotlin, Android, Firebase');
 
+
 INSERT INTO user (name, email, password, area, levelAccess)
 VALUES
 ('Carlos Manager', 'cmanager@example.com', 'pass123', 'TI', '3'),
 ('Ana Recruiter', 'arecruiter@example.com', 'pass456', 'RH', '2'),
 ('Paulo Admin', 'admin@example.com', 'adminpass', 'TI', '1');
+
+
+-- select * from file_metadata;
+
+-- INSERT INTO file_metadata 
+-- (file_name, file_type, bucket, status, action, file_key, id_user_upload)
+-- VALUES
+-- ('justificativa1.pdf', 'pdf', 'local', 'ativo', 'upload', '/uploads/justificativas/justificativa1.pdf', 1);
+
+-- -- Currículo enviado por Maria Oliveira (RH)
+-- INSERT INTO file_metadata 
+-- (file_name, file_type, bucket, status, action, file_key, id_user_upload)
+-- VALUES
+-- ('maria_oliveira_cv.pdf', 'pdf', 'local', 'ativo', 'upload', '/uploads/cvs/maria_oliveira.pdf', 2);
+
+
 
 -- Inserts para vacancies
 INSERT INTO vacancies (position_job, period, work_model, requirements, contract_type, salary, location, opening_justification, area, fk_manager)
@@ -118,8 +166,24 @@ VALUES
 (100.00, 'contratação', 'aprovado', '2025-10-14 15:00:00', 5, 2, 1);
 
 
+-- Solicitação de vaga feita pelo gestor (id_user = 1 -> Carlos Manager)
+INSERT INTO opening_requests 
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, justificativa_path, gestor_id) 
+VALUES
+('Engenheiro de Software', 'Full-time', 'remoto', 'CLT', 12000.00, 'São Paulo', 'Experiência com Java, Spring Boot e Docker', '/docs/justificativas/justificativa1.pdf', 1),
+
+('Analista de Suporte', 'Part-time', 'presencial', 'PJ', 4000.00, 'Rio de Janeiro', 'Conhecimento em Linux e Redes', '/docs/justificativas/justificativa2.pdf', 1),
+
+('Designer UX/UI', 'Full-time', 'híbrido', 'CLT', 7000.00, 'Belo Horizonte', 'Experiência com Figma e Design Systems', NULL, 1),
+
+('Cientista de Dados', 'Full-time', 'remoto', 'CLT', 15000.00, 'São Paulo', 'Python, Machine Learning, SQL', '/docs/justificativas/justificativa3.pdf', 1);
+
+
+
 select * from candidate;
+-- select * from file_metadata;
 select * from selection_process;
+SELECT * FROM opening_requests;
 
 
 
