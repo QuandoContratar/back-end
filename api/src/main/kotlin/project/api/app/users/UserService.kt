@@ -2,6 +2,7 @@ package project.api.app.users
 
 //import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Service
+import project.api.app.users.data.LevelAccess
 import project.api.core.CrudService
 import project.api.core.errors.NotFoundException
 import project.api.app.users.data.User
@@ -20,4 +21,9 @@ class UserService(
 
         return user[0]
     }
+
+    fun findByAccess(level: LevelAccess): List<User> {
+        return userRepository.findByLevelAccess(level)
+    }
+
 }

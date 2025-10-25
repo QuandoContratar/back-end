@@ -2,10 +2,13 @@ package project.api.app.candidates
 
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import project.api.app.File.FileMetadataRepository
+import project.api.app.File.data.FileMetadata
 import project.api.app.Selection.SelectionProcessRepository
 import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
 import project.api.core.CrudService
+import project.api.core.utils.FileStorageService
 import java.time.LocalDate
 import java.time.Period
 
@@ -21,7 +24,31 @@ class CandidateService (
     fun saveResumeOnly(file: MultipartFile): Candidate {
         val candidate = Candidate(resume = file.bytes)
         return insert(candidate, null)
-    }
+   }
+
+//    fun saveResumeOnly(file: MultipartFile): Candidate {
+//        // 1- Criar metadata do arquivo
+//        val metadata = FileMetadata(
+//            fileName = file.originalFilename ?: "resume.pdf",
+//            fileType = file.originalFilename?.substringAfterLast('.', "pdf"),
+//            bucket = "local", // ou "S3", dependendo de onde for salvar
+//            fileKey = "uploads/candidates/${file.originalFilename}"
+//        )
+//
+//        // 2- Salvar o arquivo fisicamente
+//        FileStorageService.saveFile(metadata.fileKey, file.bytes)
+//
+//        // 3- Persistir a metadata no banco
+//        val savedMeta = FileMetadataRepository.save(metadata)
+//
+//        // 4 -Criar candidato com a referência ao metadata
+//        val candidate = Candidate(
+//            name = "Novo Candidato", // pode vir do formulário
+//            resumeFile = savedMeta
+//        )
+//
+//        return insert(candidate, null)
+//    }
 
     fun calculate(birthDate: LocalDate?): Int {
         return if (birthDate != null) {

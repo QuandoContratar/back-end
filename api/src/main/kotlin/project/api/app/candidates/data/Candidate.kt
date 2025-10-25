@@ -2,6 +2,7 @@ package project.api.app.candidates.data
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.Size
+import project.api.app.File.data.FileMetadata
 import java.time.LocalDate
 
 @Entity
@@ -18,5 +19,9 @@ data class Candidate(
     var profilePicture: ByteArray? = null,
     var education: String? = null,
     var skills: String? = null,
+
+//    @ManyToOne
+//    @JoinColumn(name = "resume_file_id")
+//    var resumeFile: FileMetadata? = null
     var resume: ByteArray? = null,
 )

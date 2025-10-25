@@ -14,25 +14,50 @@ import org.springframework.web.multipart.MultipartFile
 import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
 import project.api.core.CrudController
+import project.api.core.utils.FileMediaTypeResolver
+import project.api.core.utils.FileStorageService
 
 @RestController
 @RequestMapping("/candidates")
 
 class CandidateController (
-    val candidateService: CandidateService
+    private val candidateService: CandidateService,
+    private val FileStorageService: FileStorageService
 ): CrudController<Candidate>(candidateService){
 
-    @GetMapping("{id}/resume")
-    fun downloadResume(@PathVariable id: Int): ResponseEntity<ByteArray>{
-        val candidate = candidateService.findById(id)
 
-        val resume = candidate.resume ?: return ResponseEntity.notFound().build()
+//    @GetMapping("{id}/resume")
+//    fun downloadResume(@PathVariable id: Int): ResponseEntity<ByteArray> {
+//        val candidate = candidateService.findById(id)
+//
+//        val fileMeta = candidate.resumeFile ?: return ResponseEntity.notFound().build()
+//
+//        val fileBytes = FileStorageService.loadFile(fileMeta.fileKey)
+//
+//        val headers = HttpHeaders().apply {
+//            contentType = MediaType.parseMediaType(FileMediaTypeResolver.resolve(fileMeta.fileType))
+//            contentDisposition = ContentDisposition.builder("attachment")
+//                .filename(fileMeta.fileName)
+//                .build()
+//        }
+//
+//        return ResponseEntity.ok()
+//            .headers(headers)
+//            .body(fileBytes)
+//    }
 
-        val headers = HttpHeaders().apply {
-            contentType = MediaType.APPLICATION_PDF
-            contentDisposition = ContentDisposition.builder("attachment")
-                .filename("resume_${id}.pdf")
-                .build()
+
+  @GetMapping("{id}/resume")
+   fun downloadResume(@PathVariable id: Int): ResponseEntity<ByteArray>{
+       val candidate = candidateService.findById(id)
+
+      val resume = candidate.resume ?: return ResponseEntity.notFound().build()
+
+      val headers = HttpHeaders().apply {
+          contentType = MediaType.APPLICATION_PDF
+          contentDisposition = ContentDisposition.builder("attachment")
+              .filename("resume_${id}.pdf")
+              .build()
         }
 
         return ResponseEntity.ok()

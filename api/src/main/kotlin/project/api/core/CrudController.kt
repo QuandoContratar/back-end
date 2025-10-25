@@ -2,9 +2,10 @@ package project.api.core
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import project.api.app.candidates.data.Candidate
 
 abstract class CrudController<T : Any>(
-    val service: CrudService<T>
+    open val service: CrudService<T>
 ) {
     @GetMapping
     fun findAll(
@@ -38,7 +39,7 @@ abstract class CrudController<T : Any>(
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int): ResponseEntity<T> {
+    open fun delete(@PathVariable id: Int): ResponseEntity<Candidate?> {
         val deleted = service.delete(id);
 
         return ResponseEntity.status(200).body(deleted);
