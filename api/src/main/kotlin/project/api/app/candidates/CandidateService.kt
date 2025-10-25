@@ -7,6 +7,7 @@ import project.api.app.File.data.FileMetadata
 import project.api.app.Selection.SelectionProcessRepository
 import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
+import project.api.app.candidates.data.CandidateDetailsDTO
 import project.api.core.CrudService
 import project.api.core.utils.FileStorageService
 import java.time.LocalDate
@@ -80,9 +81,29 @@ class CandidateService (
 
 
         }
+
+
     }
 
 
+    fun getCandidateDetails(id: Int): CandidateDetailsDTO {
+        val candidate = candidateRepository.findById(id)
+            .orElseThrow { RuntimeException("Candidato não encontrado") }
+
+        return CandidateDetailsDTO(
+            idCandidate = candidate.idCandidate ?: 0,
+            name = candidate.name ?: "",
+            phoneNumber = candidate.phoneNumber ?: "",
+            email = candidate.email ?: "",
+            state = candidate.state ?: "",
+            education = candidate.education,
+            skills = candidate.skills,
+            experience = candidate.experience,
+            profilePictureBase64 = candidate.profilePicture?.let {
+                java.util.Base64.getEncoder().encodeToString(it)
+            }
+        )
+    }
 
 
 

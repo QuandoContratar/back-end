@@ -98,7 +98,7 @@ abstract class CrudService<T : Any>(
         }
         return repository.save(document)
     }
-    fun delete(id:Int): ResponseEntity<Void> {
+    fun delete(id:Int): Candidate {
         val dto:T = this.findById(id);
         repository.deleteById(id);
 

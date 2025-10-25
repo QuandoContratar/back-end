@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
+import project.api.app.candidates.data.CandidateDetailsDTO
 import project.api.core.CrudController
 import project.api.core.utils.FileMediaTypeResolver
 import project.api.core.utils.FileStorageService
@@ -80,4 +81,11 @@ class CandidateController (
         return ResponseEntity.ok(candidates)
 
     }
+
+    @GetMapping("{id}/details")
+    fun getCandidateDetails(@PathVariable id: Int): ResponseEntity<CandidateDetailsDTO> {
+        val details = candidateService.getCandidateDetails(id)
+        return ResponseEntity.ok(details)
+    }
+
 }

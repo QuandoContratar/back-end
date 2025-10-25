@@ -19,7 +19,7 @@ data class Candidate(
     var profilePicture: ByteArray? = null,
     var education: String? = null,
     var skills: String? = null,
-
+    var experience: String? = null, // <-- NOVO CAMPO
 //    @ManyToOne
 //    @JoinColumn(name = "resume_file_id")
 //    var resumeFile: FileMetadata? = null
