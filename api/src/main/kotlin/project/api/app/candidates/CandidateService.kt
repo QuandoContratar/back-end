@@ -17,9 +17,9 @@ class CandidateService (
     val candidateRepository: CandidateRepository,
     val selectionRepository: SelectionProcessRepository
 ): CrudService<Candidate>(candidateRepository) {
-    override fun delete(id: Int): Candidate {
-        return super.delete(id)
-    }
+   //override fun delete(id: Int): Candidate {
+   //     return delete(id)
+    //}
 
     fun saveResumeOnly(file: MultipartFile): Candidate {
         val candidate = Candidate(resume = file.bytes)

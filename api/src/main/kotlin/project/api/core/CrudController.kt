@@ -39,7 +39,7 @@ abstract class CrudController<T : Any>(
     }
 
     @DeleteMapping("/{id}")
-    open fun delete(@PathVariable id: Int): ResponseEntity<Candidate?> {
+    open fun delete(@PathVariable id: Int): ResponseEntity<T?> {
         val deleted = service.delete(id);
 
         return ResponseEntity.status(200).body(deleted);

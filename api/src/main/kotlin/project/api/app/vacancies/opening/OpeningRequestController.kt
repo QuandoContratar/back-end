@@ -31,10 +31,10 @@ class OpeningRequestController(
         return ResponseEntity.ok(saved)
     }
 
-    @PostMapping
-    fun create(@RequestBody request: OpeningRequest): ResponseEntity<OpeningRequest> {
-        return ResponseEntity.ok(service.create(request))
-    }
+//@PostMapping
+  //  fun create(@RequestBody request: OpeningRequest): ResponseEntity<OpeningRequest> {
+      //  return ResponseEntity.ok(service.create(request))
+//}
 
     @GetMapping("/status/{status}")
     fun listByStatus(@PathVariable status: OpeningStatus): ResponseEntity<List<OpeningCardDTO>> {
