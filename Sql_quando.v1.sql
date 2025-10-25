@@ -21,6 +21,7 @@ create table candidate(
 `profile_picture` BLOB,
 `education`varchar(500),
 `skills`varchar(500),
+`experience` TEXT,
 `resume` MEDIUMBLOB,
 );
 
@@ -109,6 +110,18 @@ create table opening_requests (
   status enum('ENTRADA','ABERTA','APROVADA','REJEITADA','CANCELADA') default 'ENTRADA',
   `created_at` datetime default current_timestamp,
   foreign key (gestor_id) references user(id_user)
+);
+
+
+CREATE TABLE candidate_match (
+  `id_match` INT AUTO_INCREMENT PRIMARY KEY,
+  `fk_candidate` INT NOT NULL,
+  `fk_vacancy` INT NOT NULL,
+  `score` DECIMAL(5,2) NOT NULL, -- compatibilidade em %
+  `match_level` ENUM('BAIXO', 'MÉDIO', 'ALTO', 'DESTAQUE') NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (fk_candidate) REFERENCES candidate(id_candidate),
+  FOREIGN KEY (fk_vacancy) REFERENCES vacancies(id_vacancy)
 );
 
 

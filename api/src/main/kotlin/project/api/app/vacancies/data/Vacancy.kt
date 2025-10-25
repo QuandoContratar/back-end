@@ -1,5 +1,6 @@
 package project.api.app.vacancies.data
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -17,6 +18,7 @@ data class Vacancy(
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     val id_vacancy: Int? = null,
 
+    @Column(name = "position_job")
     val position_job: String? = null,
 
     val period: String? = null,

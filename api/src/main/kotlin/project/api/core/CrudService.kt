@@ -98,12 +98,13 @@ abstract class CrudService<T : Any>(
         }
         return repository.save(document)
     }
-    fun delete(id:Int): T {
-        val dto:T = this.findById(id);
-        repository.deleteById(id);
+//<<<<<<< HEAD
+fun delete(id: Int): T {
+    val dto: T = this.findById(id)
+    repository.deleteById(id)
+    return dto
+}
 
-        return dto;
-    }
     private fun getEntity(entity:T): EntitiesEnum{
         val entitiesEnum:EntitiesEnum? = EntitiesEnum.fromClasse(entity.javaClass);
         if (entitiesEnum == null) throw UnprocessableEntityException(entity.javaClass);
