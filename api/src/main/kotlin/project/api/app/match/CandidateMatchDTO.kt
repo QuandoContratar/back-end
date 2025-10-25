@@ -17,7 +17,7 @@ data class CandidateMatchDTO(
             return CandidateMatchDTO(
                 candidateId = candidate.idCandidate ?: 0,
                 candidateName = candidate.name ?: "",
-                vacancyId = vacancy.id_vacancy ?: 0,
+                vacancyId = vacancy.id ?: 0,
                 vacancyJob = vacancy.position_job ?: "",
                 score = score,
                 matchLevel = matchLevel
