@@ -1,5 +1,6 @@
 package project.api.app.users
 
+import jakarta.servlet.http.HttpSession
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,12 +21,12 @@ class UserController(
 ): CrudController<User>(userService) {
 
     @PostMapping("/login")
-    fun login(@RequestBody @Valid dto: UserLoginDto): ResponseEntity<User> {
-        val response = userService.login(dto)
-
-        return ResponseEntity.status(200).body(response);
+    fun login(@RequestBody @Valid dto: UserLoginDto, session: HttpSession): ResponseEntity<User> {
+        val user = userService.login(dto)
+        session.setAttribute("usuarioLogado", user)
+        println("usuario logou")
+        return ResponseEntity.status(200).body(user)
     }
-
     @GetMapping("/by-access/{level}")
     fun findByAccess(@PathVariable level: LevelAccess): ResponseEntity<List<User>> {
         val users = userService.findByAccess(level)

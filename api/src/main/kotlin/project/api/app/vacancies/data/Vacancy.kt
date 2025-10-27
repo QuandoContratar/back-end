@@ -18,6 +18,9 @@ data class Vacancy(
     @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     val id_vacancy: Int? = null,
 
+    @Column(name = "activeVacancy")
+    val activeVacancy: Boolean? = null,
+
     @Column(name = "position_job")
     val position_job: String? = null,
 

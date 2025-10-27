@@ -22,6 +22,8 @@ class CandidateService (
    //     return delete(id)
     //}
 
+
+
     fun saveResumeOnly(file: MultipartFile): Candidate {
         val candidate = Candidate(resume = file.bytes)
         return insert(candidate, null)
