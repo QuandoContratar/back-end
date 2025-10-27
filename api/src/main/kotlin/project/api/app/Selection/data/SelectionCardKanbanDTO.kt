@@ -20,7 +20,7 @@ data class SelectionKanbanCardDTO(
             processId = sp.id!!,
             candidateId = sp.candidate?.idCandidate,
             candidateName = sp.candidate?.name ?: "",
-            vacancyId = sp.vacancy?.id_vacancy,
+            vacancyId = sp.vacancy?.id,
             vacancyTitle = sp.vacancy?.position_job ?: "",
             workModel = sp.vacancy?.workModel?.name,          // "presencial"/"remoto"/"híbrido"
             contractType = sp.vacancy?.contractType?.name,    // "CLT"/"PJ"/...
