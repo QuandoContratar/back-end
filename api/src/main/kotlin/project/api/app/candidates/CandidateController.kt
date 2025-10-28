@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -87,5 +89,28 @@ class CandidateController (
         val details = candidateService.getCandidateDetails(id)
         return ResponseEntity.ok(details)
     }
+
+    // Busca a experiência de um candidato
+    @GetMapping("/{id}/experience")
+    fun getCandidateExperience(@PathVariable id: Int): ResponseEntity<String> {
+        val candidate = candidateService.findById(id)
+        val experience = candidate.experience ?: "Experiência não informada"
+        return ResponseEntity.ok(experience)
+    }
+
+    // Atualiza a experiência de um candidato
+    @PutMapping("/{id}/experience")
+    fun updateExperience(
+        @PathVariable id: Int,
+        @RequestBody request: Map<String, String>
+    ): ResponseEntity<Candidate> {
+        val candidate = candidateService.findById(id)
+        val updated = candidate.copy(
+            experience = request["experience"] // pega só o campo experience
+        )
+        val saved = candidateService.repository.save(updated)
+        return ResponseEntity.ok(saved)
+    }
+
 
 }
