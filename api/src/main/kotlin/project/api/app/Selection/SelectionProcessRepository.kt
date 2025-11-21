@@ -26,4 +26,6 @@ fun findTopByCandidateAndProgressLessThanOrderByCreatedAtDesc(candidate: Candida
            OR LOWER(m.name) LIKE LOWER(CONCAT('%', :q, '%'))
     """)
     fun search(@Param("q") query: String): List<SelectionProcess>
+
+    fun findByCandidate(candidate: Candidate): List<SelectionProcess>
 }

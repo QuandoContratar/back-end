@@ -4,6 +4,7 @@ import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -111,6 +112,14 @@ class CandidateController (
         val saved = candidateService.repository.save(updated)
         return ResponseEntity.ok(saved)
     }
+
+    //Deleta candidato
+    @DeleteMapping("/{id}")
+    override fun delete(@PathVariable id: Int): ResponseEntity<Candidate?>{
+        val deletedCandidate = candidateService.deleteCandidate(id)
+        return ResponseEntity.ok(deletedCandidate)
+    }
+
 
 
 }

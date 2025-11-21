@@ -106,6 +106,21 @@ class CandidateService (
             }
         )
     }
+    
+    fun deleteCandidate(id: Int): Candidate{
+
+        val candidate = candidateRepository.findById(id).orElseThrow{
+            (RuntimeException("Candidate not found"))
+        }
+
+        val processesDeleted = selectionRepository.findByCandidate(candidate)
+        selectionRepository.deleteAll(processesDeleted)
+
+        candidateRepository.delete(candidate)
+
+        return candidate
+    }
+
 
 
 
