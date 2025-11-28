@@ -13,16 +13,16 @@ create table user(
 
 create table candidate(
 `id_candidate` int auto_increment primary key,
-`name`varchar(100),
+`name` varchar(100),
 `birth` date,
 `phone_number` char(14),
-`email`varchar(100),
+`email` varchar(100),
 `state` char(2),
-`profile_picture` BLOB,
-`education`varchar(500),
-`skills`varchar(500),
+`profile_picture` LONGBLOB,
+`education` varchar(500),
+`skills` varchar(500),
 `experience` TEXT,
-`resume` MEDIUMBLOB,
+`resume` LONGBLOB
 );
 
 -- CREATE TABLE file_metadata(

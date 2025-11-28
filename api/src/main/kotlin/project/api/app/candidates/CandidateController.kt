@@ -71,11 +71,16 @@ class CandidateController (
 
     @PostMapping("/upload-multiple-resumes")
     fun uploadMultipleResumes(@RequestParam("files") files: Array<MultipartFile>): ResponseEntity<List<Candidate>>{
-        val candidates = files.map {
-            file ->
-            candidateService.saveResumeOnly(file)
+        try {
+            val candidates = files.map { file ->
+                candidateService.saveResumeOnly(file)
+            }
+            return ResponseEntity.ok(candidates)
+        } catch (e: Exception) {
+            println("Erro ao fazer upload de currículos: ${e.message}")
+            e.printStackTrace()
+            return ResponseEntity.status(500).body(emptyList())
         }
-        return ResponseEntity.ok(candidates)
     }
 
     @GetMapping("/candidatesList")

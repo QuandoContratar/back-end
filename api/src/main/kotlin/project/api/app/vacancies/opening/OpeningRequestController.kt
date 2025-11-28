@@ -4,13 +4,33 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import project.api.core.CrudController
 import org.springframework.web.multipart.MultipartFile
+import project.api.app.users.UserService
+import project.api.app.users.data.User
 
 
 @RestController
 @RequestMapping("/opening-requests")
 class OpeningRequestController(
-    override val service: OpeningRequestService
+    override val service: OpeningRequestService,
+    private val userService: UserService
 ) : CrudController<OpeningRequest>(service) {
+    
+    @PostMapping
+    override fun insert(@RequestBody dto: OpeningRequest): ResponseEntity<OpeningRequest> {
+        // Valida e busca o gestor pelo ID
+        val gestorId = dto.gestor.id
+        if (gestorId == null || gestorId <= 0 || gestorId > 2147483647) {
+            throw IllegalArgumentException("ID do gestor inválido: $gestorId")
+        }
+        
+        // Busca o User completo do banco
+        val gestor = userService.findById(gestorId)
+        
+        // Cria o OpeningRequest com o User completo
+        val openingRequest = dto.copy(gestor = gestor)
+        val insert = service.insert(openingRequest, null)
+        return ResponseEntity.status(201).body(insert)
+    }
 
     @GetMapping("/by-gestor/{gestorId}")
     fun findByGestor(@PathVariable gestorId: Int): ResponseEntity<List<OpeningRequest>> {

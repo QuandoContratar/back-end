@@ -25,7 +25,11 @@ class CandidateService (
 
 
     fun saveResumeOnly(file: MultipartFile): Candidate {
-        val candidate = Candidate(resume = file.bytes)
+        // Cria candidato apenas com o currículo, sem validações obrigatórias
+        val candidate = Candidate(
+            resume = file.bytes,
+            name = file.originalFilename?.substringBeforeLast('.') ?: "Candidato sem nome"
+        )
         return insert(candidate, null)
    }
 
