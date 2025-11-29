@@ -39,11 +39,13 @@ data class Vacancy(
 
     val location: String? = null,
 
-    val openingJustification: String? = null,
+    var openingJustification: ByteArray? = null,
 
     val area: String? = null,
 
     @field:ManyToOne
     @JoinColumn(name = "fk_manager")
-    val manager: User? = null
+    val manager: User? = null,
+
+    val statusVacancy: String? = null
 )

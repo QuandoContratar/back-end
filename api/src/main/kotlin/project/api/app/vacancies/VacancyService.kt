@@ -1,9 +1,14 @@
 package project.api.app.vacancies
 
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
+import project.api.app.candidates.data.Candidate
 import project.api.app.users.data.User
 import project.api.app.vacancies.data.Vacancy
 import project.api.app.vacancies.data.VacancyDto
+import project.api.app.vacancies.data.VacancyOpeningDTO
 import project.api.app.vacancies.data.VacancySummaryDTO
 import project.api.core.CrudService
 
@@ -17,24 +22,53 @@ class VacancyService(
     }
 
 
-    fun uploadAllVacancies(vacancies: List<Vacancy>, gestor: User) {
-    val newVacancies = vacancies.map { vacancy ->
-        Vacancy(
-            position_job = vacancy.position_job,
-            period = vacancy.period,
-            workModel = vacancy.workModel,
-            requirements = vacancy.requirements,
-            contractType = vacancy.contractType,
-            salary = vacancy.salary,
-            location = vacancy.location,
-            openingJustification = vacancy.openingJustification,
-            area = vacancy.area,
-            manager = gestor
-        )
+    fun uploadAllVacanciesPart1(vacancies: List<VacancyOpeningDTO>, gestor: User): List<Int> {
+        val newVacancies = vacancies.mapIndexed { index, dto ->
+            Vacancy(
+                position_job = dto.position_job,
+                period = dto.period,
+                workModel = dto.workModel,
+                requirements = dto.requirements,
+                contractType = dto.contractType,
+                salary = dto.salary,
+                location = dto.location,
+//                openingJustification = filesOpening.getOrNull(index),
+                area = dto.area,
+                manager = gestor,
+                statusVacancy = "pendente aprovação"
+            )
     }
         println("passou 2")
-    vacancyRepository.saveAll(newVacancies)
+    val vacanciesAll = vacancyRepository.saveAll(newVacancies)
+        val ids = vacanciesAll.mapNotNull { it.id }
+        return ids
+
 }
+
+    @Transactional
+    open fun uploadAllVacanciesPart2(
+        files: List<ByteArray>,
+        ids: List<Int>
+    ): List<Vacancy> {
+
+        if (files.size != ids.size) {
+            throw IllegalArgumentException("A lista de arquivos deve ter o mesmo tamanho da lista de IDs.")
+        }
+
+        return ids.mapIndexed { index, id ->
+
+            // busca a entidade
+            val vacancy = vacancyRepository.findById(id)
+                .orElseThrow { RuntimeException("Vacancy $id não encontrada") }
+
+            // altera somente o campo necessário
+            vacancy.openingJustification = files[index]
+
+            // salva e retorna a entidade atualizada
+            vacancyRepository.save(vacancy)
+        }
+    }
+
 
 //    fun Vacancy.toDto(): VacancyDto = VacancyDto(
 //        id = this.id,

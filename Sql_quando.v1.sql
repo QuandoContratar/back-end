@@ -22,7 +22,7 @@ create table candidate(
 `education`varchar(500),
 `skills`varchar(500),
 `experience` TEXT,
-`resume` MEDIUMBLOB,
+`resume` MEDIUMBLOB
 );
 
 -- CREATE TABLE file_metadata(
@@ -69,7 +69,8 @@ CREATE TABLE vacancies(
 `opening_justification` varchar(100),
 `area` varchar(100),
 `fk_manager` int,
-FOREIGN KEY (`fk_manager`) REFERENCES user(`id_user`)
+FOREIGN KEY (`fk_manager`) REFERENCES user(`id_user`),
+`vacancy_status` varchar(20)
 );
 
 CREATE TABLE selection_process (
@@ -198,6 +199,11 @@ select * from candidate;
 select * from selection_process;
 SELECT * FROM opening_requests;
 
+INSERT INTO candidate (name, birth, phone_number, email, state, education, skills)
+VALUES
+('Ana clara', '1998-06-15', '(11)91234-5678', 'joao.silva@example.com', 'SP', 'Bacharel em Ciência da Computação', 'Java, Spring, MySQL');
 
-
-
+  
+  
+ 
+  
