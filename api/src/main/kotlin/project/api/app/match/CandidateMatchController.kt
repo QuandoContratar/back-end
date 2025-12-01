@@ -47,7 +47,7 @@ class CandidateMatchController(
         return ResponseEntity.ok(matches)
     }
 
-    @PostMapping("/match/{matchId}/accept")
+    @PostMapping("/{matchId}/accept")
     fun acceptCandidate(@PathVariable matchId: Int): ResponseEntity<SelectionProcess> {
         val match = candidateMatchRepository.findById(matchId).orElseThrow()
         val process = SelectionProcess(
@@ -62,7 +62,7 @@ class CandidateMatchController(
         return ResponseEntity.ok(selectionProcessRepository.save(process))
     }
 
-    @PostMapping("/match/{matchId}/reject")
+    @PostMapping("/{matchId}/reject")
     fun rejectCandidate(@PathVariable matchId: Int): ResponseEntity<SelectionProcess> {
         val match = candidateMatchRepository.findById(matchId).orElseThrow()
         val process = SelectionProcess(
@@ -78,7 +78,7 @@ class CandidateMatchController(
         return ResponseEntity.ok(selectionProcessRepository.save(process))
     }
 
-    @GetMapping("/match/{vacancyId}")
+    @GetMapping("/{vacancyId}")
     fun listMatches(
         @PathVariable vacancyId: Int,
         @RequestParam(required = false) level: String?,
