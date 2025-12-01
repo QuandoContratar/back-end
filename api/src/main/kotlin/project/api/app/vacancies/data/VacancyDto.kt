@@ -12,3 +12,11 @@ data class VacancyDto(
     val openingJustification: String,
     val managerName: String
 )
+
+data class SendToApprovalRequest(
+    val vacancyIds: List<Long>
+)
+
+data class UpdateStatusRequest(
+    val statusVacancy: String
+)

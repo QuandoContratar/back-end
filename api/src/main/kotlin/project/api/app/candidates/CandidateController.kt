@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
 import project.api.app.candidates.data.CandidateDetailsDTO
+import project.api.app.candidates.dto.RejectCandidateRequest
 import project.api.core.CrudController
 import project.api.core.utils.FileMediaTypeResolver
 import project.api.core.utils.FileStorageService
@@ -120,6 +121,59 @@ class CandidateController (
         return ResponseEntity.ok(deletedCandidate)
     }
 
+
+    /**
+     * Lista candidatos por etapa do processo seletivo
+     * GET /candidates/stage/{stage}
+     */
+    @GetMapping("/stage/{stage}")
+    fun findByStage(@PathVariable stage: String): ResponseEntity<List<CandidateCardDTO>> {
+        val candidates = candidateService.findByStage(stage)
+        return ResponseEntity.ok(candidates)
+    }
+
+    /**
+     * Avança candidato para próxima etapa
+     * POST /candidates/{id}/advance
+     */
+    @PostMapping("/{id}/advance")
+    fun advanceStage(@PathVariable id: Long): ResponseEntity<CandidateCardDTO> {
+        val candidate = candidateService.advanceStage(id)
+        return ResponseEntity.ok(candidate)
+    }
+
+    /**
+     * Aprova candidato (contratação)
+     * POST /candidates/{id}/approve
+     */
+    @PostMapping("/{id}/approve")
+    fun approve(@PathVariable id: Long): ResponseEntity<CandidateCardDTO> {
+        val candidate = candidateService.approve(id)
+        return ResponseEntity.ok(candidate)
+    }
+
+    /**
+     * Reprova candidato
+     * POST /candidates/{id}/reject
+     */
+    @PostMapping("/{id}/reject")
+    fun reject(
+        @PathVariable id: Long,
+        @RequestBody(required = false) body: RejectCandidateRequest?
+    ): ResponseEntity<CandidateCardDTO> {
+        val candidate = candidateService.reject(id, body?.reason)
+        return ResponseEntity.ok(candidate)
+    }
+
+    /**
+     * Lista candidatos por vaga
+     * GET /candidates/vacancy/{vacancyId}
+     */
+    @GetMapping("/vacancy/{vacancyId}")
+    fun findByVacancy(@PathVariable vacancyId: Long): ResponseEntity<List<CandidateCardDTO>> {
+        val candidates = candidateService.findByVacancy(vacancyId)
+        return ResponseEntity.ok(candidates)
+    }
 
 
 }

@@ -7,5 +7,9 @@ import project.api.app.candidates.data.Candidate
 
 @Repository
 interface CandidateRepository:JpaRepository<Candidate, Int>{
+    fun findByCurrentStage(stage: String): List<Candidate>
 
+    fun findByVacancyId(vacancyId: Long): List<Candidate>
+
+    fun findByStatus(status: String): List<Candidate>
 }

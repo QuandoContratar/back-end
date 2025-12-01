@@ -24,4 +24,16 @@ data class Candidate(
 //    @JoinColumn(name = "resume_file_id")
 //    var resumeFile: FileMetadata? = null
     var resume: ByteArray? = null,
+
+    @Column(name = "current_stage")
+    var currentStage: String? = "aguardando_triagem",
+
+    @Column(name = "status")
+var status: String? = "ativo",
+
+@Column(name = "rejection_reason")
+var rejectionReason: String? = null,
+
+@Column(name = "vacancy_id")
+var vacancyId: Long? = null
 )

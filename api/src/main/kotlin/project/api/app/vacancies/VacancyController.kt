@@ -12,6 +12,9 @@ import project.api.app.vacancies.data.VacancyOpeningDTO
 import project.api.app.vacancies.data.VacancySummaryDTO
 import project.api.core.CrudController
 import com.fasterxml.jackson.core.type.TypeReference
+import project.api.app.vacancies.data.SendToApprovalRequest
+import project.api.app.vacancies.data.UpdateStatusRequest
+import project.api.app.vacancies.data.VacancyDto
 
 @RestController
 @RequestMapping("/vacancies")
@@ -51,5 +54,46 @@ class VacancyController(
 
     }
 
+    /**
+     * Lista vagas por gestor
+     * GET /vacancies/manager/{managerId}
+     */
+    @GetMapping("/manager/{managerId}")
+    fun findByManager(@PathVariable managerId: Long): ResponseEntity<List<VacancyDto>> {
+        val vacancies = vacancyService.findByManager(managerId)
+        return ResponseEntity.ok(vacancies)
+    }
+
+    /**
+     * Lista vagas por status
+     * GET /vacancies/status/{status}
+     */
+    @GetMapping("/status/{status}")
+    fun findByStatus(@PathVariable status: String): ResponseEntity<List<VacancyDto>> {
+        val vacancies = vacancyService.findByStatus(status)
+        return ResponseEntity.ok(vacancies)
+    }
+
+    /**
+     * Envia múltiplas vagas para aprovação
+     * POST /vacancies/send-to-approval
+     */
+    @PostMapping("/send-to-approval")
+    fun sendToApproval(@RequestBody request: SendToApprovalRequest): ResponseEntity<List<VacancyDto>> {
+        val vacancies = vacancyService.sendToApproval(request.vacancyIds)
+        return ResponseEntity.ok(vacancies)
+    }
+    /**
+     * Atualiza status de uma vaga
+     * PATCH /vacancies/{id}/status
+     */
+    @PatchMapping("/{id}/status")
+    fun updateStatus(
+        @PathVariable id: Long,
+        @RequestBody request: UpdateStatusRequest
+    ): ResponseEntity<VacancyDto> {
+        val vacancy = vacancyService.updateStatus(id, request.statusVacancy)
+        return ResponseEntity.ok(vacancy)
+    }
 }
 

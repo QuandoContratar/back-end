@@ -11,6 +11,7 @@ import project.api.app.vacancies.data.VacancyDto
 import project.api.app.vacancies.data.VacancyOpeningDTO
 import project.api.app.vacancies.data.VacancySummaryDTO
 import project.api.core.CrudService
+import jakarta.persistence.EntityNotFoundException
 
 @Service
 class VacancyService(
@@ -20,8 +21,6 @@ class VacancyService(
     fun listVacancies(): List<VacancySummaryDTO> {
         return vacancyRepository.findActiveVacancies()
     }
-
-
     fun uploadAllVacanciesPart1(vacancies: List<VacancyOpeningDTO>, gestor: User): List<Int> {
         val newVacancies = vacancies.mapIndexed { index, dto ->
             Vacancy(
@@ -44,7 +43,6 @@ class VacancyService(
         return ids
 
 }
-
     @Transactional
     open fun uploadAllVacanciesPart2(
         files: List<ByteArray>,
@@ -70,6 +68,44 @@ class VacancyService(
     }
 
 
+
+    /**
+     * Busca vagas por gestor
+     */
+    fun findByManager(managerId: Long): List<VacancyDto> {
+        return vacancyRepository.findByManagerId(managerId.toInt()).map { it.toDTO() }
+    }
+
+    /**
+     * Busca vagas por status
+     */
+    fun findByStatus(status: String): List<VacancyDto> {
+        return vacancyRepository.findByStatusVacancy(status).map { it.toDTO() }
+    }
+
+    /**
+     * Envia vagas para aprovação
+     */
+    fun sendToApproval(vacancyIds: List<Long>): List<VacancyDto> {
+        val intIds = vacancyIds.map { it.toInt() }
+        val vacancies = vacancyRepository.findAllById(intIds)
+        vacancies.forEach { vacancy ->
+            vacancy.statusVacancy = "pendente_aprovacao"
+        }
+        return vacancyRepository.saveAll(vacancies).map { it.toDTO() }
+    }
+
+    /**
+     * Atualiza status de uma vaga
+     */
+    fun updateStatus(id: Long, status: String): VacancyDto {
+        val vacancy = vacancyRepository.findById(id.toInt())
+            .orElseThrow { EntityNotFoundException("Vaga não encontrada: $id") }
+        vacancy.statusVacancy = status
+        return vacancyRepository.save(vacancy).toDTO()
+    }
+}
+
 //    fun Vacancy.toDto(): VacancyDto = VacancyDto(
 //        id = this.id,
 //        position = this.position,
@@ -82,4 +118,20 @@ class VacancyService(
 //        openingJustification = this.openingJustification,
 //        managerName = this.manager.name!! // Só o nome, não o objeto inteiro!
 //    )
-}
+
+
+    // Extension function para converter Vacancy para DTO
+    fun Vacancy.toDTO(): VacancyDto {
+        return VacancyDto(
+            id = this.id ?: 0,
+            position = this.position_job ?: "",
+            period = this.period ?: "",
+            workModel = this.workModel?.name ?: "",
+            requirements = this.requirements ?: "",
+            contractType = this.contractType?.name ?: "",
+            salary = this.salary ?: 0.0,
+            location = this.location ?: "",
+            openingJustification = "", // ByteArray não vai pro DTO
+            managerName = this.manager?.name ?: ""
+        )
+    }

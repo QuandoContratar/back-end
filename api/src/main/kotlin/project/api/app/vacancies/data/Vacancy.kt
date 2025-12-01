@@ -47,5 +47,8 @@ data class Vacancy(
     @JoinColumn(name = "fk_manager")
     val manager: User? = null,
 
-    val statusVacancy: String? = null
+    var statusVacancy: String? = null,
+    @Column(name = "manager_id")
+    var managerId: Long? = null
 )
+

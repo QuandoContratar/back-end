@@ -12,6 +12,7 @@ import project.api.core.CrudService
 import project.api.core.utils.FileStorageService
 import java.time.LocalDate
 import java.time.Period
+import jakarta.persistence.EntityNotFoundException
 
 @Service
 class CandidateService (
@@ -123,6 +124,82 @@ class CandidateService (
 
 
 
+    /**
+     * Busca candidatos por etapa
+     */
+    fun findByStage(stage: String): List<CandidateCardDTO> {
+        return candidateRepository.findByCurrentStage(stage).map { it.toDTO() }
+    }
 
+    /**
+     * Avança candidato para próxima etapa
+     */
+    fun advanceStage(id: Long): CandidateCardDTO {
+        val candidate = candidateRepository.findById(id.toInt())
+            .orElseThrow { EntityNotFoundException("Candidato não encontrado: $id") }
+
+        val stageOrder = listOf(
+            "aguardando_triagem",
+            "triagem_inicial",
+            "avaliacao_fit_cultural",
+            "teste_tecnico",
+            "entrevista_tecnica",
+            "entrevista_final",
+            "proposta_fechamento",
+            "contratacao"
+        )
+
+        val currentIndex = stageOrder.indexOf(candidate.currentStage ?: "aguardando_triagem")
+        if (currentIndex < stageOrder.size - 1) {
+            candidate.currentStage = stageOrder[currentIndex + 1]
+        }
+
+        return candidateRepository.save(candidate).toDTO()
+    }
+
+    /**
+     * Aprova candidato
+     */
+    fun approve(id: Long): CandidateCardDTO {
+        val candidate = candidateRepository.findById(id.toInt())
+            .orElseThrow { EntityNotFoundException("Candidato não encontrado: $id") }
+
+        candidate.currentStage = "contratacao"
+        candidate.status = "aprovado"
+
+        return candidateRepository.save(candidate).toDTO()
+    }
+
+    /**
+     * Reprova candidato
+     */
+    fun reject(id: Long, reason: String?): CandidateCardDTO {
+        val candidate = candidateRepository.findById(id.toInt())
+            .orElseThrow { EntityNotFoundException("Candidato não encontrado: $id") }
+
+        candidate.status = "reprovado"
+        candidate.rejectionReason = reason
+
+        return candidateRepository.save(candidate).toDTO()
+    }
+
+    /**
+     * Busca candidatos por vaga
+     */
+    fun findByVacancy(vacancyId: Long): List<CandidateCardDTO> {
+        return candidateRepository.findByVacancyId(vacancyId).map { it.toDTO() }
+    }
+    fun Candidate.toDTO(): CandidateCardDTO {
+        return CandidateCardDTO(
+            idCandidate = this.idCandidate ?: 0,
+            name = this.name ?: "",
+            age = this.birth?.let {
+                java.time.Period.between(it, java.time.LocalDate.now()).years
+            } ?: 0,
+            location = this.state ?: "",
+            vacancy = "", // será preenchido se necessário
+            area = ""
+        )
+    }
 
 }
