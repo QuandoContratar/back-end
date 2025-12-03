@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 @Entity
 data class SelectionProcess(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null,
+    var idSelection: Int? = null,
     var progress: Double,
     @Enumerated(EnumType.STRING)
     var currentStage: CurrentStage,

@@ -33,4 +33,6 @@ class SelectionProcessService(
         CurrentStage.proposta_fechamento    -> 95.0
         CurrentStage.contratacao            -> 100.0
     }
+
+    fun listAll(): List<SelectionProcess> = repository.findAll()
 }

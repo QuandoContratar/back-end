@@ -20,6 +20,12 @@ class SelectionProcessController(
         return ResponseEntity.ok(list)
     }
 
+    @GetMapping("/kanban")
+    fun listAll(): ResponseEntity<List<SelectionProcess>> {
+        val list = spService.listAll()
+        return ResponseEntity.ok(list)
+    }
+
     /** mover card (drag & drop) para outra coluna */
     @PatchMapping("/{id}/stage/{stage}")
     fun moveToStage(
