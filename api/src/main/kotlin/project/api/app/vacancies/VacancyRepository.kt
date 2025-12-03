@@ -11,7 +11,7 @@ interface VacancyRepository : JpaRepository<Vacancy, Int> {
 
     @Query("""
         SELECT v.position_job, v.workModel, v.manager.name, v.area
-        FROM Vacancy v
+        FROM Vacancy v WHERE v.statusVacancy = 'aberta'
     """)
     fun findActiveVacancies(): List<VacancySummaryDTO>
 
