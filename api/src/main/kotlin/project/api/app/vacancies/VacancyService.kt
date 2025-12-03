@@ -21,6 +21,11 @@ class VacancyService(
     fun listVacancies(): List<VacancySummaryDTO> {
         return vacancyRepository.findActiveVacancies()
     }
+
+    fun listApprovalVacancies(): List<VacancyOpeningDTO>{
+        return vacancyRepository.findOpeningVacancies()
+    }
+
     fun uploadAllVacanciesPart1(vacancies: List<VacancyOpeningDTO>, gestor: User): List<Int> {
         val newVacancies = vacancies.mapIndexed { index, dto ->
             Vacancy(

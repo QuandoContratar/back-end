@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import project.api.app.vacancies.data.Vacancy
+import project.api.app.vacancies.data.VacancyOpeningDTO
 import project.api.app.vacancies.data.VacancySummaryDTO
 
 @Repository
@@ -20,4 +21,22 @@ interface VacancyRepository : JpaRepository<Vacancy, Int> {
     fun findByManagerId(managerId: Int): List<Vacancy>
 
     fun findByStatusVacancy(status: String): List<Vacancy>
+
+    @Query("""
+    SELECT
+        v.position_job,
+        v.period,
+        v.workModel,
+        v.requirements,
+        v.contractType,
+        v.salary,
+        v.location,
+        v.area,
+        v.statusVacancy
+    FROM Vacancy v
+    WHERE v.statusVacancy = 'pendente_aprovacao'
+""")
+    fun findOpeningVacancies(): List<VacancyOpeningDTO>
+
+
 }

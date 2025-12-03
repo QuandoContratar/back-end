@@ -28,6 +28,11 @@ class VacancyController(
         return vacancyService.listVacancies()
     }
 
+    @GetMapping("/pendingVacancies")
+        fun listPendingVacancies(): List<VacancyOpeningDTO>{
+            return vacancyService.listApprovalVacancies()
+    }
+
 //    Abertura de vagas
 @PostMapping("/send-massive", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
 fun sendMassive(
