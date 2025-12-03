@@ -27,5 +27,8 @@
         var area: String? = null,
 
         @Enumerated(EnumType.STRING)
-        var levelAccess: LevelAccess? = null,
+        @Column(name = "level_access") // nome exato da coluna no banco
+        var levelAccess: LevelAccess? = null
+
+
     )
