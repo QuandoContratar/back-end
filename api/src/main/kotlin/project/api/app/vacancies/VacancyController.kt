@@ -12,6 +12,7 @@ import project.api.app.vacancies.data.VacancyOpeningDTO
 import project.api.app.vacancies.data.VacancySummaryDTO
 import project.api.core.CrudController
 import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.module.kotlin.readValue
 import project.api.app.vacancies.data.SendToApprovalRequest
 import project.api.app.vacancies.data.UpdateStatusRequest
 import project.api.app.vacancies.data.VacancyDto
@@ -28,31 +29,27 @@ class VacancyController(
     }
 
 //    Abertura de vagas
-    @PostMapping("/send-massive", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun sendMassive(
+@PostMapping("/send-massive", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+fun sendMassive(
     @RequestPart("vacancies") vacancies: String,
-    @RequestPart("files") files: List<MultipartFile>,
+    @RequestPart("files") files: List<MultipartFile>, // <- lista de arquivos
     session: HttpSession
-    ): ResponseEntity<String> {
-        println(session.getAttribute("usuarioLogado"))
-        val usuario = session.getAttribute("usuarioLogado")
-        if (usuario !is User) {
-            return ResponseEntity.status(401).body("Usuário não logado")
-        }
+): ResponseEntity<String> {
+    val usuario = session.getAttribute("usuarioLogado") as? User
+        ?: return ResponseEntity.status(401).body("Usuário não logado")
 
-    println(vacancies)
-    println("teste")
-    println(files)
+    val dto = objectMapper.readValue<List<VacancyOpeningDTO>>(vacancies)
 
-
-    val dto = objectMapper.readValue(vacancies, object : com.fasterxml.jackson.core.type.TypeReference<List<VacancyOpeningDTO>>(){})
-    val filesOpening: List<ByteArray> = files.map {it.bytes}
-    val vacanciesIds = vacancyService.uploadAllVacanciesPart1(dto, usuario)
-    vacancyService.uploadAllVacanciesPart2(filesOpening, vacanciesIds)
-        return ResponseEntity.ok("Vagas enviadas para aprovação")
-
-
+    if (files.size != dto.size) {
+        return ResponseEntity.status(400).body("Número de arquivos não corresponde ao número de vagas")
     }
+
+    val ids = vacancyService.uploadAllVacanciesPart1(dto, usuario)
+    vacancyService.uploadAllVacanciesPart2(files.map { it.bytes }, ids)
+
+    return ResponseEntity.ok("Vagas enviadas para aprovação")
+}
+
 
     /**
      * Lista vagas por gestor
