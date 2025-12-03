@@ -33,6 +33,11 @@ class VacancyController(
             return vacancyService.listApprovalVacancies()
     }
 
+    @PatchMapping("/updateStatus/{id}")
+    fun approveVacancy(@PathVariable id: Int): ResponseEntity<String> {
+        return vacancyService.openVacancy(id)
+    }
+
 //    Abertura de vagas
 @PostMapping("/send-massive", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
 fun sendMassive(

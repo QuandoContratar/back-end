@@ -26,6 +26,18 @@ class VacancyService(
         return vacancyRepository.findOpeningVacancies()
     }
 
+    fun openVacancy(id: Int): ResponseEntity<String> {
+        val vacancy = vacancyRepository.findById(id).orElse(null) // pega a entidade ou null
+        return if (vacancy != null) {
+            vacancy.statusVacancy = "aberta"
+            vacancyRepository.save(vacancy)
+            ResponseEntity.ok("Vaga aprovada pelo RH")
+        } else {
+            ResponseEntity.status(404).body("Vaga não encontrada")
+        }
+    }
+
+
     fun uploadAllVacanciesPart1(vacancies: List<VacancyOpeningDTO>, gestor: User): List<Int> {
         val newVacancies = vacancies.mapIndexed { index, dto ->
             Vacancy(
