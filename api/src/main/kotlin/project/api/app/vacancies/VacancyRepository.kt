@@ -31,11 +31,12 @@ interface VacancyRepository : JpaRepository<Vacancy, Int> {
         v.salary,
         v.location,
         v.area,
+        v.openingJustification,
         v.statusVacancy
     FROM Vacancy v
     WHERE v.statusVacancy = 'pendente_aprovacao'
 """)
-    fun findOpeningVacancies(): List<VacancyOpeningDTO>
+    fun findOpeningVacancies(): List<Array<Any?>>
 
 
 }

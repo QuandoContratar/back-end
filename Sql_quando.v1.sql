@@ -148,6 +148,7 @@ CREATE TABLE selection_process (
     INDEX idx_candidate (`fk_candidate`),
     INDEX idx_vacancy (`fk_vacancy`)
 );
+
 -- ========================================
 -- TABELA: candidate_match (Match de Candidatos com Vagas)
 -- ========================================
