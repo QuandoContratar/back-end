@@ -1,0 +1,43 @@
+package project.api.app.kanban
+
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+@RequestMapping("/selection-process")
+class SelectionProcessKanbanProxyController(
+    private val kanbanService: KanbanService
+) {
+
+    @GetMapping("/kanban")
+    fun getAll(): List<KanbanCardDTO> = kanbanService.listAllCards()
+
+    @GetMapping("/kanban/{stage}")
+    fun getByStage(@PathVariable stage: String): List<KanbanCardDTO> =
+        kanbanService.listByStage(stage)
+
+    @PatchMapping("/{id}/stage/{stage}")
+    fun moveToStage(
+        @PathVariable id: Int,
+        @PathVariable stage: String
+    ): KanbanCardDTO = kanbanService.moveCardByStageName(id, stage)
+
+    @GetMapping("/kanban/search")
+    fun search(@RequestParam q: String): List<KanbanCardDTO> {
+        // por enquanto, implementa um filtro básico em memória
+        val all = kanbanService.listAllCards()
+        val query = q.lowercase()
+        return all.filter {
+            it.candidateName.lowercase().contains(query) ||
+                    it.vacancyTitle.lowercase().contains(query) ||
+                    (it.managerName ?: "").lowercase().contains(query)
+        }
+    }
+}
+
