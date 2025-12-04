@@ -17,7 +17,7 @@ data class SelectionKanbanCardDTO(
 ) {
     companion object {
         fun fromEntity(sp: SelectionProcess) = SelectionKanbanCardDTO(
-            processId = sp.id!!,
+            processId = sp.idSelection!!,
             candidateId = sp.candidate?.idCandidate,
             candidateName = sp.candidate?.name ?: "",
             vacancyId = sp.vacancy?.id,
