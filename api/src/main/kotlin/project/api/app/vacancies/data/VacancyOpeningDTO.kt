@@ -9,5 +9,6 @@ data class VacancyOpeningDTO(
     val salary: Double?,
     val location: String?,
     val area: String?,
+    val openingJustification: String?,
     val statusVacancy: String?
 )
