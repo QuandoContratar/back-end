@@ -10,6 +10,7 @@ import project.api.app.vacancies.data.Vacancy
 import project.api.app.vacancies.data.VacancyDto
 import project.api.app.vacancies.data.VacancyOpeningDTO
 import project.api.app.vacancies.data.VacancySummaryDTO
+import project.api.app.vacancies.data.WorkModel
 import project.api.core.CrudService
 import jakarta.persistence.EntityNotFoundException
 
@@ -19,7 +20,20 @@ class VacancyService(
 ): CrudService<Vacancy>(vacancyRepository) {
 
     fun listVacancies(): List<VacancySummaryDTO> {
-        return vacancyRepository.findActiveVacancies()
+        return vacancyRepository.findActiveVacancies().map { row ->
+            val workModelString = when (val workModel = row[2]) {
+                is WorkModel -> workModel.name
+                is String -> workModel
+                else -> ""
+            }
+            VacancySummaryDTO(
+                id = (row[0] as? Int) ?: 0,
+                positionJob = (row[1] as? String) ?: "",
+                workModel = workModelString,
+                managerName = (row[3] as? String) ?: "",
+                area = (row[4] as? String) ?: ""
+            )
+        }
     }
 
     fun listApprovalVacancies(): List<VacancyOpeningDTO>{

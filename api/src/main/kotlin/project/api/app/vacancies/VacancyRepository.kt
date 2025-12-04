@@ -11,11 +11,10 @@ import project.api.app.vacancies.data.VacancySummaryDTO
 interface VacancyRepository : JpaRepository<Vacancy, Int> {
 
     @Query("""
-        SELECT v.position_job, v.workModel, v.manager.name, v.area
-        FROM Vacancy v WHERE v.statusVacancy = 'aberta'
-    """)
-    fun findActiveVacancies(): List<VacancySummaryDTO>
-
+    SELECT v.id, v.position_job, v.workModel, v.manager.name, v.area
+    FROM Vacancy v WHERE v.statusVacancy = 'aberta'
+""")
+    fun findActiveVacancies(): List<Array<Any?>>
     // Busca pelo ID do manager (User tem id do tipo Int)
     @Query("SELECT v FROM Vacancy v WHERE v.manager.id = :managerId")
     fun findByManagerId(managerId: Int): List<Vacancy>
