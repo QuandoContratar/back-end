@@ -14,30 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 class SelectionProcessKanbanProxyController(
     private val kanbanService: KanbanService
 ) {
-
-    @GetMapping("/kanban")
-    fun getAll(): List<KanbanCardDTO> = kanbanService.listAllCards()
-
-    @GetMapping("/kanban/{stage}")
-    fun getByStage(@PathVariable stage: String): List<KanbanCardDTO> =
-        kanbanService.listByStage(stage)
-
-    @PatchMapping("/{id}/stage/{stage}")
-    fun moveToStage(
-        @PathVariable id: Int,
-        @PathVariable stage: String
-    ): KanbanCardDTO = kanbanService.moveCardByStageName(id, stage)
-
-    @GetMapping("/kanban/search")
-    fun search(@RequestParam q: String): List<KanbanCardDTO> {
-        // por enquanto, implementa um filtro básico em memória
-        val all = kanbanService.listAllCards()
-        val query = q.lowercase()
-        return all.filter {
-            it.candidateName.lowercase().contains(query) ||
-                    it.vacancyTitle.lowercase().contains(query) ||
-                    (it.managerName ?: "").lowercase().contains(query)
-        }
-    }
+    // Todos os métodos foram removidos devido a conflitos de mapeamento com SelectionProcessController
+    // Os endpoints estão disponíveis em:
+    // - GET /selection-process/kanban - SelectionProcessController#listAll()
+    // - GET /selection-process/kanban/{stage} - SelectionProcessController#listByStage(CurrentStage)
+    // - PATCH /selection-process/{id}/stage/{stage} - SelectionProcessController#moveToStage(id, CurrentStage)
+    // - GET /selection-process/kanban/search - SelectionProcessController#search(String)
 }
 
