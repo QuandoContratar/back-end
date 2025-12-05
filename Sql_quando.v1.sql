@@ -128,12 +128,12 @@ CREATE TABLE selection_process (
     `id_selection` INT AUTO_INCREMENT PRIMARY KEY,
     `progress` DECIMAL(5, 2) DEFAULT 0.00,
     `current_stage` ENUM (
-        'aguardando_triagem', 
-        'triagem_inicial', 
+        'aguardando_triagem',
+        'triagem_inicial',
         'avaliacao_fit_cultural',
-        'teste_tecnico', 
-        'entrevista_tecnica', 
-        'entrevista_final', 
+        'teste_tecnico',
+        'entrevista_tecnica',
+        'entrevista_final',
         'proposta_fechamento',
         'contratacao'
     ) DEFAULT 'aguardando_triagem',
@@ -193,8 +193,8 @@ INSERT INTO vacancies (position_job, period, work_model, requirements, contract_
 
 -- Solicitações de abertura de vaga (exemplos)
 -- IMPORTANTE: gestor_id deve referenciar um id_user válido
-INSERT INTO opening_requests 
-(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, justificativa_path, gestor_id, status) 
+INSERT INTO opening_requests
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, justificativa_path, gestor_id, status)
 VALUES
 ('Engenheiro de Software', 'Full-time', 'remoto', 'CLT', 12000.00, 'São Paulo', 'Experiência com Java, Spring Boot e Docker', '/docs/justificativas/justificativa1.pdf', 1, 'ENTRADA'),
 ('Analista de Suporte', 'Part-time', 'presencial', 'PJ', 4000.00, 'Rio de Janeiro', 'Conhecimento em Linux e Redes', '/docs/justificativas/justificativa2.pdf', 1, 'ENTRADA'),
@@ -232,7 +232,7 @@ SELECT '=== VAGAS ===' AS info;
 SELECT * FROM vacancies;
 
 SELECT '=== SOLICITAÇÕES DE ABERTURA ===' AS info;
-SELECT 
+SELECT
     o.id,
     o.cargo,
     o.periodo,
@@ -248,7 +248,7 @@ LEFT JOIN user u ON o.gestor_id = u.id_user
 ORDER BY o.created_at DESC;
 
 
-SELECT 
+SELECT
     kc.id_card,
     c.name AS candidate_name,
     v.position_job,
@@ -288,15 +288,147 @@ update vacancies set fk_manager = 1 where id_vacancy = 6;
 
 update vacancies set status_vacancy = 'aberta' where id_vacancy = 6;
 
-SELECT 
-    kc.id_card,
-    c.name AS candidate_name,
-    v.position_job,
-    u.name AS manager_name,
-    ks.name AS stage,
-    kc.match_level
-FROM kanban_card kc
-JOIN candidate c       ON kc.fk_candidate = c.id_candidate
-JOIN vacancies v       ON kc.fk_vacancy = v.id_vacancy
-JOIN user u            ON v.fk_manager = u.id_user
-JOIN kanban_stage ks   ON kc.fk_stage = ks.id_stage;
+INSERT INTO opening_requests
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+VALUES
+('Dev Backend Junior', 'Full-time', 'remoto', 'CLT', 6500, 'São Paulo', 'Java, Spring Boot', 1, 'ENTRADA'),
+('Analista de Infraestrutura', 'Full-time', 'presencial', 'CLT', 8000, 'Rio de Janeiro', 'Linux, Redes, Docker', 1, 'ENTRADA'),
+('Assistente de RH', 'Part-time', 'híbrido', 'CLT', 3000, 'Curitiba', 'Atendimento, Organização', 1, 'ENTRADA');
+
+
+INSERT INTO opening_requests
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+VALUES
+('Product Manager', 'Full-time', 'remoto', 'CLT', 12000, 'São Paulo', 'Scrum, Jira, UX', 1, 'ABERTA'),
+('QA Analyst Pleno', 'Full-time', 'presencial', 'CLT', 7000, 'Belo Horizonte', 'Testes manuais e automação', 1, 'ABERTA'),
+('Estagiário de Suporte', 'Part-time', 'presencial', 'Estágio', 1800, 'São Paulo', 'Redes básicas, Windows', 1, 'ABERTA'),
+('Dev Front-end', 'Full-time', 'híbrido', 'PJ', 9000, 'Campinas', 'React, JS, HTML/CSS', 4, 'ABERTA');
+
+
+INSERT INTO opening_requests
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+VALUES
+('Designer UI/UX', 'Full-time', 'remoto', 'CLT', 7500, 'São Paulo', 'Figma, Design System', 1, 'APROVADA'),
+('DevOps Engineer', 'Full-time', 'remoto', 'CLT', 14000, 'São Paulo', 'AWS, CI/CD, Kubernetes', 1, 'APROVADA');
+
+
+INSERT INTO opening_requests
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+VALUES
+('Assistente Administrativo', 'Full-time', 'presencial', 'CLT', 2500, 'São Paulo', 'Organização, Excel básico', 1, 'REJEITADA'),
+('Scrum Master', 'Full-time', 'remoto', 'PJ', 11000, 'Rio de Janeiro', 'Scrum, Agile Coaching', 1, 'REJEITADA');
+
+
+INSERT INTO opening_requests
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+VALUES
+('Auxiliar de Logística', 'Full-time', 'presencial', 'CLT', 2400, 'Curitiba', 'Expedição, Organização', 1, 'CANCELADA'),
+('Cientista de Dados', 'Full-time', 'remoto', 'CLT', 16000, 'São Paulo', 'Python, ML, SQL', 4, 'CANCELADA');
+
+select * from opening_requests;
+
+INSERT INTO vacancies
+(position_job, area, period, work_model, contract_type, salary, location, requirements, fk_manager, status_vacancy)
+VALUES
+('Analista de Sistemas', 'TI', 'Integral', 'Remoto', 'CLT', 5500, 'São Paulo', 'SQL, API, SCRUM', 1, 'pendente_aprovacao'),
+('Assistente Financeiro', 'Financeiro', 'Integral', 'Presencial', 'CLT', 3100, 'Santo André', 'Excel, Contas a pagar/receber', 2, 'pendente_aprovacao'),
+('UX Designer Jr', 'Produto', 'Meio período', 'Híbrido', 'PJ', 4200, 'São Caetano', 'Figma, Design System', 1, 'pendente_aprovacao'),
+('Desenvolvedor Back-End Jr', 'TI', 'Integral', 'Remoto', 'CLT', 6500, 'Campinas', 'Java, Spring, SQL', 4, 'pendente_aprovacao');
+
+DESCRIBE vacancies;
+
+INSERT INTO user (name, email, password, area, level_access) VALUES
+('Carlos Manager', 'carlos.manager@qc.com', '123', 'TI', 'MANAGER'),
+('Ana Recrutadora', 'ana.recrutadora@qc.com', '123', 'RH', 'HR'),
+('João Admin', 'joao.admin@qc.com', '123', 'TI', 'ADMIN'),
+('Mariana Gestora', 'mariana.gestora@qc.com', '123', 'Produto', 'MANAGER');
+
+INSERT INTO vacancies
+(position_job, period, work_model, requirements, contract_type, salary, location, opening_justification, area, fk_manager, status_vacancy)
+VALUES
+('Desenvolvedor Back-end Jr', 'Integral', 'remoto', 'Java, Spring, SQL', 'CLT', 6500, 'São Paulo', 'Expansão da equipe', 'TI', 1, 'aberta'),
+('Analista de Dados Jr', 'Integral', 'presencial', 'Python, SQL, Power BI', 'CLT', 5000, 'Rio de Janeiro', 'Demanda crescente', 'Dados', 1, 'aberta'),
+('DevOps Jr', 'Integral', 'híbrido', 'Linux, Docker, AWS', 'PJ', 8000, 'Belo Horizonte', 'Projeto novo', 'TI', 4, 'aberta'),
+('UX Designer Jr', 'Meio Período', 'remoto', 'Figma, UI/UX', 'CLT', 4500, 'Florianópolis', 'Nova squad', 'Produto', 4, 'pendente aprovação'),
+('Analista de Suporte', 'Integral', 'presencial', 'Redes, Windows', 'CLT', 3000, 'Curitiba', 'Turnover alto', 'TI', 1, 'rejeitada'),
+('Cientista de Dados Jr', 'Integral', 'remoto', 'Python, ML, SQL', 'CLT', 9000, 'São Paulo', 'Projeto Big Data', 'Dados', 3, 'concluída');
+
+INSERT INTO candidate (name, birth, phone_number, email, state, education, skills, vacancy_id)
+VALUES
+('João Silva', '1996-05-10', '(11)98888-1111', 'joao.silva@ex.com', 'SP', 'ADS', 'Java, SQL', 1),
+('Maria Oliveira', '1998-07-21', '(21)97777-2222', 'maria.oliveira@ex.com', 'RJ', 'CC', 'Python, Power BI', 2),
+('Carlos Souza', '1999-02-15', '(31)96666-3333', 'carlos.souza@ex.com', 'MG', 'SI', 'Linux, Docker', 3),
+('Ana Lima', '1995-11-02', '(47)95555-4444', 'ana.lima@ex.com', 'SC', 'ADS', 'UX, Figma', 4),
+('Lucas Pereira', '2000-03-18', '(41)94444-5555', 'lucas.pereira@ex.com', 'PR', 'TCI', 'Redes, Windows', 5),
+
+-- SP (10 candidatos)
+('Bruna Mendes', '1997-08-10', '(11)98888-6666', 'bruna.mendes@ex.com', 'SP', 'ADS', 'Java', 1),
+('Thiago Costa', '1998-12-20', '(11)97777-7777', 'thiago.costa@ex.com', 'SP', 'CC', 'Spring', 1),
+('Larissa Gomes', '1994-10-05', '(11)96666-8888', 'larissa.gomes@ex.com', 'SP', 'Eng Software', 'SQL', 2),
+('Matheus Pinto', '1995-04-22', '(11)95555-9999', 'matheus.pinto@ex.com', 'SP', 'SI', 'React', 3),
+('Fernanda Dias', '1999-01-11', '(11)94444-0000', 'fernanda.dias@ex.com', 'SP', 'ADS', 'AWS', 3),
+
+-- RJ (5 candidatos)
+('Rafael Costa', '1996-06-01', '(21)95555-2222', 'rafael.costa@ex.com', 'RJ', 'CC', 'SQL', 2),
+('Beatriz Lima', '1997-09-13', '(21)93333-1111', 'beatriz.lima@ex.com', 'RJ', 'ADS', 'Python', 2),
+('Felipe Rocha', '1999-11-25', '(21)92222-4444', 'felipe.rocha@ex.com', 'RJ', 'SI', 'ETL', 6),
+('Camila Santos', '1998-03-09', '(21)91111-7777', 'camila.santos@ex.com', 'RJ', 'CC', 'ML', 6),
+('Leonardo Paes', '1997-12-30', '(21)90000-8888', 'leonardo.paes@ex.com', 'RJ', 'CC', 'APIs', 1),
+
+-- MG (5 candidatos)
+('Sofia Martins', '1996-10-03', '(31)95555-1111', 'sofia.martins@ex.com', 'MG', 'ADS', 'Java', 1),
+('Hugo Andrade', '1998-07-17', '(31)94444-2222', 'hugo.andrade@ex.com', 'MG', 'CC', 'SQL', 2),
+('Paula Ribeiro', '1994-01-21', '(31)93333-3333', 'paula.ribeiro@ex.com', 'MG', 'SI', 'Docker', 3),
+('Ricardo Melo', '1999-03-29', '(31)92222-4444', 'ricardo.melo@ex.com', 'MG', 'ADS', 'Linux', 5),
+('Marina Freitas', '1995-11-14', '(31)91111-5555', 'marina.freitas@ex.com', 'MG', 'CC', 'Python', 6);
+
+INSERT INTO candidate_match (fk_candidate, fk_vacancy, score, match_level)
+VALUES
+(1,1,92,'DESTAQUE'),
+(2,2,88,'ALTO'),
+(3,3,76,'ALTO'),
+(4,4,64,'MEDIO'),
+(5,5,58,'MEDIO'),
+
+(6,1,95,'DESTAQUE'),
+(7,1,89,'ALTO'),
+(8,2,72,'ALTO'),
+(9,3,67,'ALTO'),
+(10,3,54,'MEDIO'),
+
+(11,1,48,'MEDIO'),
+(12,2,33,'BAIXO'),
+(13,6,28,'BAIXO'),
+(14,6,12,'BAIXO'),
+(15,1,81,'ALTO'),
+
+(16,2,91,'DESTAQUE'),
+(17,3,86,'ALTO'),
+(18,3,74,'ALTO'),
+(19,6,69,'ALTO'),
+(20,5,55,'MEDIO');
+
+INSERT INTO selection_process (progress, current_stage, outcome, fk_candidate, fk_recruiter, fk_vacancy)
+VALUES
+(100,'contratacao','aprovado',1,2,1),
+(80,'entrevista_final','pendente',2,2,2),
+(100,'contratacao','aprovado',3,2,3),
+(40,'triagem_inicial','reprovado',4,2,4),
+(60,'teste_tecnico','pendente',5,2,5);
+
+
+INSERT INTO kanban_card (fk_candidate, fk_vacancy, fk_stage, match_level)
+VALUES
+(2,2,1,'MEDIO'),
+(3,3,2,'ALTO'),
+(4,4,3,'MEDIO'),
+(5,5,4,'ALTO'),
+(6,1,2,'ALTO'),
+(7,1,3,'ALTO'),
+(8,2,2,'MEDIO'),
+(9,3,4,'ALTO'),
+(10,3,5,'DESTAQUE');
+
+
+
+

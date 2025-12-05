@@ -1,6 +1,6 @@
 package project.api.app.dashboard
 
-data class StatusVagasDTO(
+data class VacancyStatusSummaryDTO(
     val status: String,
-    val quantidade: Int
+    val total: Long
 )
