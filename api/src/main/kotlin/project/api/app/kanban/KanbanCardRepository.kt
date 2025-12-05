@@ -16,4 +16,13 @@ interface KanbanCardRepository : JpaRepository<KanbanCard, Int> {
 
     fun findByStage_Name(name: String): List<KanbanCard>
 
+//    @Query("""
+//   SELECT COUNT(*)
+//   FROM kanban_card
+//   WHERE fk_stage = (SELECT id_stage FROM kanban_stage WHERE name = 'contratacao')
+//""", nativeQuery = true)
+//    fun countContratados(): Long
+
+
+
 }
