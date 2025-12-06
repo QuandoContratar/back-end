@@ -114,6 +114,11 @@ class CandidateMatchController(
         return ResponseEntity.ok(dtos)
     }
 
+    @GetMapping
+    fun findAll(): ResponseEntity<List<CandidateMatch>>{
+        var matches = candidateMatchRepository.findAll()
 
+        return ResponseEntity.ok(matches)
+    }
 
 }

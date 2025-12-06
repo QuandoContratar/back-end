@@ -9,14 +9,14 @@ import project.api.app.vacancies.data.Vacancy
 data class CandidateMatch(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,
+    val idMatch: Int? = null,
 
     @ManyToOne
-    @JoinColumn(name = "candidate_id", nullable = false)
+    @JoinColumn(name = "fk_candidate", nullable = false)
     val candidate: Candidate,
 
     @ManyToOne
-    @JoinColumn(name = "vacancy_id", nullable = false)
+    @JoinColumn(name = "fk_vacancy", nullable = false)
     val vacancy: Vacancy,
 
     @Column(nullable = false)
