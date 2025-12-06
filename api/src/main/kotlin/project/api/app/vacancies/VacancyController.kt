@@ -21,7 +21,7 @@ import project.api.app.vacancies.data.VacancyDto
 class VacancyController(
     private val objectMapper: ObjectMapper,
     val vacancyService: VacancyService
-): CrudController<Vacancy>(vacancyService){
+){
     @GetMapping("/activesVacancies")
     fun listVacancies(): List<VacancySummaryDTO> {
         return vacancyService.listVacancies()
@@ -93,5 +93,13 @@ fun sendMassive(
         val vacancy = vacancyService.updateStatus(id, request.statusVacancy)
         return ResponseEntity.ok(vacancy)
     }
+
+    @GetMapping
+    fun findall(): ResponseEntity<List<Vacancy>>{
+        var vagas = vacancyService.vacancyRepository.findAll()
+
+        return ResponseEntity.ok(vagas)
+    }
+
 }
 

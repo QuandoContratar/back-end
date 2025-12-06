@@ -84,7 +84,7 @@ class CandidateMatchController(
         @RequestParam(required = false) level: String?,
         @RequestParam(required = false) area: String?,
         @RequestParam(required = false) state: String?
-    ): ResponseEntity<List<CandidateMatchDTO>> {
+    ): ResponseEntity<List<CandidateMatch>> {
         var matches = candidateMatchRepository.findByVacancyId(vacancyId)
 
         // aplica filtros
@@ -98,11 +98,7 @@ class CandidateMatchController(
             matches = matches.filter { it.candidate.state.equals(state, ignoreCase = true) }
         }
 
-        val dtos = matches.map {
-            CandidateMatchDTO.from(it.candidate, it.vacancy, it.score, it.matchLevel)
-        }
-
-        return ResponseEntity.ok(dtos)
+        return ResponseEntity.ok(matches)
     }
 
     @GetMapping("/candidate/{candidateId}")
