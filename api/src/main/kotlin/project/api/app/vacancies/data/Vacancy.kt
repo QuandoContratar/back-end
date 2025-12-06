@@ -39,7 +39,8 @@ data class Vacancy(
 
     val location: String? = null,
 
-    var openingJustification: ByteArray? = null,
+    @Column(name = "opening_justification", length = 1000)
+    var openingJustification: String? = null,
 
     val area: String? = null,
 

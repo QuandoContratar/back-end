@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import project.api.app.users.data.User
 import project.api.app.vacancies.data.Vacancy
 import project.api.app.vacancies.data.VacancyOpeningDTO
@@ -39,23 +38,15 @@ class VacancyController(
     }
 
 //    Abertura de vagas
-@PostMapping("/send-massive", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+@PostMapping("/send-massive", consumes = [MediaType.APPLICATION_JSON_VALUE])
 fun sendMassive(
-    @RequestPart("vacancies") vacancies: String,
-    @RequestPart("files") files: List<MultipartFile>, // <- lista de arquivos
+    @RequestBody vacancies: List<VacancyOpeningDTO>,
     session: HttpSession
 ): ResponseEntity<String> {
     val usuario = session.getAttribute("usuarioLogado") as? User
         ?: return ResponseEntity.status(401).body("Usuário não logado")
 
-    val dto = objectMapper.readValue<List<VacancyOpeningDTO>>(vacancies)
-
-    if (files.size != dto.size) {
-        return ResponseEntity.status(400).body("Número de arquivos não corresponde ao número de vagas")
-    }
-
-    val ids = vacancyService.uploadAllVacanciesPart1(dto, usuario)
-    vacancyService.uploadAllVacanciesPart2(files.map { it.bytes }, ids)
+    vacancyService.uploadAllVacancies(vacancies, usuario)
 
     return ResponseEntity.ok("Vagas enviadas para aprovação")
 }

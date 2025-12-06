@@ -3,13 +3,14 @@ package project.api.app.vacancies
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 import project.api.app.candidates.data.Candidate
 import project.api.app.users.data.User
 import project.api.app.vacancies.data.Vacancy
 import project.api.app.vacancies.data.VacancyDto
 import project.api.app.vacancies.data.VacancyOpeningDTO
 import project.api.app.vacancies.data.VacancySummaryDTO
+import project.api.app.vacancies.data.WorkModel
+import project.api.app.vacancies.data.ContractType
 import project.api.core.CrudService
 import jakarta.persistence.EntityNotFoundException
 
@@ -19,11 +20,42 @@ class VacancyService(
 ): CrudService<Vacancy>(vacancyRepository) {
 
     fun listVacancies(): List<VacancySummaryDTO> {
-        return vacancyRepository.findActiveVacancies()
+        return vacancyRepository.findActiveVacancies().map { row ->
+            val workModelString = when (val workModel = row[2]) {
+                is WorkModel -> workModel.name
+                is String -> workModel
+                else -> ""
+            }
+            VacancySummaryDTO(
+                id = (row[0] as? Int) ?: 0,
+                positionJob = (row[1] as? String) ?: "",
+                workModel = workModelString,
+                managerName = (row[3] as? String) ?: "",
+                area = (row[4] as? String) ?: ""
+            )
+        }
     }
 
     fun listApprovalVacancies(): List<VacancyOpeningDTO>{
-        return vacancyRepository.findOpeningVacancies()
+        return vacancyRepository.findOpeningVacancies().map { row ->
+            val workModel = when (val wm = row[2]) {
+                is WorkModel -> wm
+                is String -> WorkModel.values().find { it.name == wm }
+                else -> null
+            }
+            VacancyOpeningDTO(
+                position_job = row[0] as? String,
+                period = row[1] as? String,
+                workModel = workModel,
+                requirements = row[3] as? String,
+                contractType = row[4] as? ContractType,
+                salary = row[5] as? Double,
+                location = row[6] as? String,
+                area = row[7] as? String,
+                openingJustification = row[8] as? String,
+                statusVacancy = row[9] as? String
+            )
+        }
     }
 
     fun openVacancy(id: Int): ResponseEntity<String> {
@@ -38,8 +70,9 @@ class VacancyService(
     }
 
 
-    fun uploadAllVacanciesPart1(vacancies: List<VacancyOpeningDTO>, gestor: User): List<Int> {
-        val newVacancies = vacancies.mapIndexed { index, dto ->
+    @Transactional
+    fun uploadAllVacancies(vacancies: List<VacancyOpeningDTO>, gestor: User): List<Vacancy> {
+        val newVacancies = vacancies.map { dto ->
             Vacancy(
                 position_job = dto.position_job,
                 period = dto.period,
@@ -48,40 +81,13 @@ class VacancyService(
                 contractType = dto.contractType,
                 salary = dto.salary,
                 location = dto.location,
-//                openingJustification = filesOpening.getOrNull(index),
+                openingJustification = dto.openingJustification,
                 area = dto.area,
                 manager = gestor,
                 statusVacancy = "pendente aprovação"
             )
-    }
-        println("passou 2")
-    val vacanciesAll = vacancyRepository.saveAll(newVacancies)
-        val ids = vacanciesAll.mapNotNull { it.id }
-        return ids
-
-}
-    @Transactional
-    open fun uploadAllVacanciesPart2(
-        files: List<ByteArray>,
-        ids: List<Int>
-    ): List<Vacancy> {
-
-        if (files.size != ids.size) {
-            throw IllegalArgumentException("A lista de arquivos deve ter o mesmo tamanho da lista de IDs.")
         }
-
-        return ids.mapIndexed { index, id ->
-
-            // busca a entidade
-            val vacancy = vacancyRepository.findById(id)
-                .orElseThrow { RuntimeException("Vacancy $id não encontrada") }
-
-            // altera somente o campo necessário
-            vacancy.openingJustification = files[index]
-
-            // salva e retorna a entidade atualizada
-            vacancyRepository.save(vacancy)
-        }
+        return vacancyRepository.saveAll(newVacancies)
     }
 
 
@@ -148,7 +154,7 @@ class VacancyService(
             contractType = this.contractType?.name ?: "",
             salary = this.salary ?: 0.0,
             location = this.location ?: "",
-            openingJustification = "", // ByteArray não vai pro DTO
+            openingJustification = this.openingJustification ?: "",
             managerName = this.manager?.name ?: ""
         )
     }
