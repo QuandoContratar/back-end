@@ -26,8 +26,23 @@ class DashboardController(
     @GetMapping("/tipo-contrato")
     fun tipoContrato() = service.getTipoContrato()
 
+    @GetMapping("/skills/hard")
+    fun hardSkills(): List<HardSkillDTO> =
+        service.getHardSkills()
 
-        // 1) Candidatos por estado (mapa / barras)
+    @GetMapping("/skills/soft")
+    fun softSkills(): List<SoftSkillDTO> =
+        service.getSoftSkills()
+
+    @GetMapping("/recommendation/{candidateId}")
+    fun recommendation(@PathVariable candidateId: Int): List<VacancyRecommendationDTO> =
+        service.recommendVacancies(candidateId)
+
+    @GetMapping("/first-contact")
+    fun firstContact(): List<FirstContactDTO> =
+        service.getFirstContactTimes()
+
+    // 1) Candidatos por estado (mapa / barras)
         @GetMapping("/candidates-by-state")
         fun candidatesByState(): List<CandidatesByStateDTO> =
             service.getCandidatesByState()

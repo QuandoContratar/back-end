@@ -237,6 +237,44 @@ class DashboardService(
                 avgApprovalDays = (row[5] as? Number)?.toDouble() // pode ser null
             )
         }
+    fun getHardSkills(): List<HardSkillDTO> =
+        repo.countHardSkills().map { row ->
+            HardSkillDTO(
+                skill = row[0].toString(),
+                total = (row[1] as Number).toLong()
+            )
+        }
+
+    fun getSoftSkills(): List<SoftSkillDTO> =
+        repo.countSoftSkills().map { row ->
+            SoftSkillDTO(
+                softSkill = row[0].toString(),
+                total = (row[1] as Number).toLong()
+            )
+        }
+
+    fun recommendVacancies(candidateId: Int): List<VacancyRecommendationDTO> =
+        repo.recommendVacancies(candidateId).map { row ->
+            VacancyRecommendationDTO(
+                vacancyId = (row[0] as Number).toInt(),
+                position = row[1].toString(),
+                score = (row[2] as Number).toDouble(),
+                matchLevel = row[3].toString()
+            )
+        }
+
+    fun getFirstContactTimes(): List<FirstContactDTO> =
+        repo.firstContactTimes().map { row ->
+            FirstContactDTO(
+                candidateId = (row[0] as Number).toInt(),
+                candidateName = row[1].toString(),
+                daysUntilContact = (row[2] as Number).toInt()
+            )
+        }
+
+
+
+
 }
 
 //
