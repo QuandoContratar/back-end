@@ -546,7 +546,7 @@ VALUES
  'aberta'
 );
 
-UPDATE candidate_match
+UPDATE candidate_match 
 SET status = 'ACCEPTED'
 WHERE fk_candidate IN (15,17);
 -- ========================================
