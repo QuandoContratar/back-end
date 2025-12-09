@@ -10,4 +10,6 @@ data class CandidateDetailsDTO(
     val skills: String?,
     val experience: String?,
     val profilePictureBase64: String? // converte o byte[] para base64
-)
+) {
+    companion object
+}
