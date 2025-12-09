@@ -120,13 +120,14 @@ CREATE TABLE kanban_stage (
 
 INSERT INTO kanban_stage (name, position_order) VALUES
 ('aguardando_triagem',1),
-('triagem_inicial', 2),
-('avaliacao_fit_cultural', 3),
-('teste_tecnico', 4),
-('entrevista_tecnica', 5),
-('entrevista_final', 6),
-('proposta_fechamento', 7),
-('contratacao', 8);
+('triagem', 2),
+('entrevista_rh',3),
+('avaliacao_fit_cultural', 4),
+('teste_tecnico', 5),
+('entrevista_tecnica', 6),
+('entrevista_final', 7),
+('proposta_fechamento', 8),
+('contratacao', 9);
 
 -- ========================================
 -- KANBAN – CARDS
@@ -153,7 +154,8 @@ CREATE TABLE selection_process (
     `progress` DECIMAL(5, 2) DEFAULT 0.00,
     `current_stage` ENUM (
         'aguardando_triagem',
-        'triagem_inicial',
+        'triagem',
+		'entrevista_rh',
         'avaliacao_fit_cultural',
         'teste_tecnico',
         'entrevista_tecnica',
@@ -666,10 +668,10 @@ VALUES
 DESCRIBE vacancies;
 
 INSERT INTO user (name, email, password, area, level_access) VALUES
-('Carlos Manager', 'carlos.manager@qc.com', '123', 'TI', 'MANAGER'),
-('Ana Recrutadora', 'ana.recrutadora@qc.com', '123', 'RH', 'HR'),
-('João Admin', 'joao.admin@qc.com', '123', 'TI', 'ADMIN'),
-('Mariana Gestora', 'mariana.gestora@qc.com', '123', 'Produto', 'MANAGER');
+('Carlos Manager', 'carlos.manager@qc.com', '123456', 'TI', 'MANAGER'),
+('Ana Recrutadora', 'ana.recrutadora@qc.com', '123456', 'RH', 'HR'),
+('João Admin', 'joao.admin@qc.com', '123456', 'TI', 'ADMIN'),
+('Mariana Gestora', 'mariana.gestora@qc.com', '123456', 'Produto', 'MANAGER');
 
 INSERT INTO vacancies
 (position_job, period, work_model, requirements, contract_type, salary, location, opening_justification, area, fk_manager, status_vacancy)
@@ -712,8 +714,7 @@ VALUES
 
 INSERT INTO candidate_match (fk_candidate, fk_vacancy, score, match_level)
 VALUES
-(1,1,92,'DESTAQUE'),
-(2,2,88,'ALTO'),
+
 (3,3,76,'ALTO'),
 (4,4,64,'MEDIO'),
 (5,5,58,'MEDIO'),
@@ -756,7 +757,3 @@ VALUES
 (8,2,2,'MEDIO'),
 (9,3,4,'ALTO'),
 (10,3,5,'DESTAQUE');
-
-
-
-

@@ -1,8 +1,12 @@
 package project.api.app.Selection.data
 
 enum class CurrentStage(val description: String) {
+
     aguardando_triagem("aguardando_triagem"),
-    triagem_inicial("triagem_inicial"),
+    triagem("triagem"),
+
+    entrevista_rh("entrevista_rh"),
+
     avaliacao_fit_cultural("avaliacao_fit_cultural"),
     teste_tecnico("teste_tecnico"),
     entrevista_tecnica("entrevista_tecnica"),

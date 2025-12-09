@@ -19,6 +19,7 @@ data class Vacancy(
     @Column(name = "id_vacancy")
     val id: Int? = null,
 
+    @Transient
     @Column(name = "activeVacancy")
     val activeVacancy: Boolean? = null,
 
