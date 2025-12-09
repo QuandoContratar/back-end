@@ -232,5 +232,73 @@ class DashboardRepository {
             JOIN vacancies v ON v.fk_manager = u.id_user
             GROUP BY u.id_user, u.name
         """).resultList.map { it as Array<Any> }
+
+
+    fun countHardSkills(): List<Array<Any>> =
+        em.createNativeQuery("""
+        SELECT TRIM(skill) AS skill, COUNT(*) AS total
+        FROM (
+            SELECT 
+                SUBSTRING_INDEX(SUBSTRING_INDEX(hard_skills, ',', numbers.n), ',', -1) AS skill
+            FROM candidate_profile
+            JOIN numbers ON numbers.n <= 1 
+                + LENGTH(hard_skills) 
+                - LENGTH(REPLACE(hard_skills, ',', ''))
+        ) AS extracted
+        WHERE skill <> ''
+        GROUP BY skill
+        ORDER BY total DESC
+    """).resultList.map { it as Array<Any> }
+
+
+    fun countSoftSkills(): List<Array<Any>> =
+        em.createNativeQuery("""
+        SELECT TRIM(skill) AS softSkill, COUNT(*) AS total
+        FROM (
+            SELECT 
+                SUBSTRING_INDEX(SUBSTRING_INDEX(soft_skills, ',', numbers.n), ',', -1) AS skill
+            FROM candidate_profile
+            JOIN numbers ON numbers.n <= 1 
+                + LENGTH(soft_skills) 
+                - LENGTH(REPLACE(soft_skills, ',', ''))
+        ) AS extracted
+        WHERE skill <> ''
+        GROUP BY softSkill
+        ORDER BY total DESC
+    """).resultList.map { it as Array<Any> }
+
+
+    fun recommendVacancies(candidateId: Int): List<Array<Any>> =
+        em.createNativeQuery("""
+        SELECT 
+            v.id_vacancy,
+            v.position_job,
+            cm.score,
+            cm.match_level
+        FROM candidate_match cm
+        JOIN vacancies v ON v.id_vacancy = cm.fk_vacancy
+        WHERE cm.fk_candidate = :candidateId
+        ORDER BY cm.score DESC
+        LIMIT 5
+    """)
+            .setParameter("candidateId", candidateId)
+            .resultList.map { it as Array<Any> }
+
+    fun firstContactTimes(): List<Array<Any>> =
+        em.createNativeQuery("""
+        SELECT 
+            c.id_candidate,
+            c.name,
+            DATEDIFF(sp.created_at, cp.created_at) AS dias
+        FROM selection_process sp
+        JOIN candidate c 
+            ON c.id_candidate = sp.fk_candidate
+        JOIN candidate_profile cp 
+            ON cp.fk_candidate = c.id_candidate
+        WHERE sp.current_stage <> 'aguardando_triagem'
+        ORDER BY dias DESC
+    """).resultList.map { it as Array<Any> }
+
+
 }
 
