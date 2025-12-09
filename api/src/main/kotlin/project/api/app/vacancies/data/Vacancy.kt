@@ -52,7 +52,7 @@ data class Vacancy(
 
     var statusVacancy: String? = null,
 
-    @Column(name = "manager_id")
-    var managerId: Long? = null
+//    @Column(name = "manager_id")
+//    var managerId: Long? = null
 )
 

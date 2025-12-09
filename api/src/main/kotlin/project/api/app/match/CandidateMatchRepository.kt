@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface CandidateMatchRepository : JpaRepository<CandidateMatch, Int> {
     fun findByVacancyId(vacancyId: Int): List<CandidateMatch>
     fun findByCandidate_idCandidate(candidateId: Int): List<CandidateMatch>
+    fun findByStatus(status: MatchStatus): List<CandidateMatch>
+
 
 //    @Query("SELECT m FROM CandidateMatch m WHERE m.vacancy.id_vacancy = :vacancyId")
 //    fun findByVacancyId(@Param("vacancyId") vacancyId: Int): List<CandidateMatch>

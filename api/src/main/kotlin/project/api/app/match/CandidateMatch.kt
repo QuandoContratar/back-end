@@ -36,8 +36,11 @@
 package project.api.app.match
 
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
+import org.springframework.beans.factory.config.YamlProcessor
 import project.api.app.candidates.data.Candidate
 import project.api.app.vacancies.data.Vacancy
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "candidate_match")
@@ -61,7 +64,17 @@ data class CandidateMatch(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "match_level", nullable = false)
-    val matchLevel: MatchLevel
+    val matchLevel: MatchLevel,
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    val createdAt: LocalDateTime? = null,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    var status: MatchStatus = MatchStatus.PENDING
+
+
 )
 
 enum class MatchLevel {
@@ -69,4 +82,9 @@ enum class MatchLevel {
     MEDIO,
     ALTO,
     DESTAQUE
+}
+enum class MatchStatus {
+    PENDING,
+    ACCEPTED,
+    REJECTED
 }

@@ -182,14 +182,13 @@ CREATE TABLE candidate_match (
     id_match INT AUTO_INCREMENT PRIMARY KEY,
     fk_candidate INT NOT NULL,
     fk_vacancy INT NOT NULL,
-    score DECIMAL(5, 2) NOT NULL COMMENT 'Compatibilidade em %',
-    match_level ENUM('BAIXO', 'MEDIO', 'ALTO', 'DESTAQUE') NOT NULL,
+    score DECIMAL(5,2) NOT NULL,
+    match_level ENUM('BAIXO','MEDIO','ALTO','DESTAQUE') NOT NULL,
+    status ENUM('PENDING','ACCEPTED','REJECTED') DEFAULT 'PENDING',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (fk_candidate) REFERENCES candidate(id_candidate) ON DELETE CASCADE,
     FOREIGN KEY (fk_vacancy) REFERENCES vacancies(id_vacancy) ON DELETE CASCADE,
-    UNIQUE KEY unique_match (fk_candidate, fk_vacancy),
-    INDEX idx_score (score),
-    INDEX idx_match_level (match_level)
+    UNIQUE KEY unique_match (fk_candidate, fk_vacancy)
 );
 
 -- ========================================
@@ -547,7 +546,9 @@ VALUES
  'aberta'
 );
 
-
+UPDATE candidate_match
+SET status = 'ACCEPTED'
+WHERE fk_candidate IN (15,17);
 -- ========================================
 -- CONSULTAS DE VERIFICAÇÃO
 -- ========================================
@@ -742,7 +743,7 @@ VALUES
 (100,'contratacao','aprovado',1,2,1),
 (80,'entrevista_final','pendente',2,2,2),
 (100,'contratacao','aprovado',3,2,3),
-(40,'triagem_inicial','reprovado',4,2,4),
+(40,'triagem','reprovado',4,2,4),
 (60,'teste_tecnico','pendente',5,2,5);
 
 
@@ -757,3 +758,6 @@ VALUES
 (8,2,2,'MEDIO'),
 (9,3,4,'ALTO'),
 (10,3,5,'DESTAQUE');
+
+
+
