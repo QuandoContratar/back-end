@@ -1,5 +1,6 @@
 package project.api.app.candidates
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -17,18 +18,25 @@ import org.springframework.web.multipart.MultipartFile
 import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
 import project.api.app.candidates.data.CandidateDetailsDTO
+import project.api.app.candidates.data.CandidateProfile
+import project.api.app.candidates.data.SeniorityLevel
+import project.api.app.candidates.dto.CandidateProfileDTO
 import project.api.app.candidates.dto.RejectCandidateRequest
 import project.api.core.CrudController
 import project.api.core.utils.FileMediaTypeResolver
 import project.api.core.utils.FileStorageService
+import java.time.LocalDateTime
+
+
 
 @RestController
 @RequestMapping("/candidates")
 
-class CandidateController (
+class CandidateController(
     private val candidateService: CandidateService,
-    private val FileStorageService: FileStorageService
-): CrudController<Candidate>(candidateService){
+    private val CandidateProfileRepository: CandidateProfileRepository
+) : CrudController<Candidate>(candidateService) {
+
 
 
 //    @GetMapping("{id}/resume")
@@ -52,17 +60,17 @@ class CandidateController (
 //    }
 
 
-  @GetMapping("{id}/resume")
-   fun downloadResume(@PathVariable id: Int): ResponseEntity<ByteArray>{
-       val candidate = candidateService.findById(id)
+    @GetMapping("{id}/resume")
+    fun downloadResume(@PathVariable id: Int): ResponseEntity<ByteArray>{
+        val candidate = candidateService.findById(id)
 
-      val resume = candidate.resume ?: return ResponseEntity.notFound().build()
+        val resume = candidate.resume ?: return ResponseEntity.notFound().build()
 
-      val headers = HttpHeaders().apply {
-          contentType = MediaType.APPLICATION_PDF
-          contentDisposition = ContentDisposition.builder("attachment")
-              .filename("resume_${id}.pdf")
-              .build()
+        val headers = HttpHeaders().apply {
+            contentType = MediaType.APPLICATION_PDF
+            contentDisposition = ContentDisposition.builder("attachment")
+                .filename("resume_${id}.pdf")
+                .build()
         }
 
         return ResponseEntity.ok()
@@ -73,7 +81,7 @@ class CandidateController (
     @PostMapping("/upload-multiple-resumes")
     fun uploadMultipleResumes(@RequestParam("files") files: Array<MultipartFile>): ResponseEntity<List<Candidate>>{
         val candidates = files.map {
-            file ->
+                file ->
             candidateService.saveResumeOnly(file)
         }
         return ResponseEntity.ok(candidates)
@@ -173,6 +181,105 @@ class CandidateController (
     fun findByVacancy(@PathVariable vacancyId: Long): ResponseEntity<List<CandidateCardDTO>> {
         val candidates = candidateService.findByVacancy(vacancyId)
         return ResponseEntity.ok(candidates)
+    }
+
+    // ============================================================
+    //  NOVO ENDPOINT: IA envia o perfil estruturado do candidato
+    //  POST /candidates/{id}/profile
+    // ============================================================
+
+    @PostMapping("/{id}/profile")
+    fun saveCandidateProfile(
+        @PathVariable id: Int,
+        @RequestBody dto: CandidateProfileDTO
+    ): ResponseEntity<CandidateProfile> {
+
+        val candidate = candidateService.findById(id)
+
+        val objectMapper = jacksonObjectMapper()
+        val rawJson = objectMapper.writeValueAsString(dto)
+
+        // SKILLS
+        val hardSkills = dto.skills.joinToString(",") { it.trim() }
+        val softSkills = dto.softSkills?.joinToString(",") { it.trim() }
+
+        // ROLE PRINCIPAL
+        val mainRole = dto.experiences.firstOrNull()?.role
+
+        // STACK PRINCIPAL (tecnologia mais repetida)
+        val mainStack = dto.experiences
+            .flatMap { it.technologies ?: emptyList() }
+            .groupingBy { it.lowercase() }
+            .eachCount()
+            .maxByOrNull { it.value }
+            ?.key
+
+        // SENIORIDADE
+        val seniorityEnum = dto.seniority?.uppercase()?.let { str ->
+            when {
+                "JUNIOR" in str -> SeniorityLevel.JUNIOR
+                "PLENO" in str -> SeniorityLevel.PLENO
+                "SENIOR" in str -> SeniorityLevel.SENIOR
+                "LEAD" in str -> SeniorityLevel.LEAD
+                else -> null
+            }
+        }
+
+        val location = dto.location
+
+        val existing = CandidateProfileRepository.findByCandidate(candidate)
+
+        val profile = if (existing != null) {
+            existing.apply {
+                this.rawJson = rawJson
+                this.totalExperienceYears = dto.totalExperienceYears
+                this.mainSeniority = seniorityEnum
+                this.mainStack = mainStack
+                this.mainRole = mainRole
+                this.city = location?.city
+                this.state = location?.state
+                this.remotePreference = location?.workFormat?.uppercase()
+                this.hardSkills = hardSkills
+                this.softSkills = softSkills
+                this.updatedAt = LocalDateTime.now()
+            }
+        } else {
+            CandidateProfile(
+                candidate = candidate,
+                rawJson = rawJson,
+                totalExperienceYears = dto.totalExperienceYears,
+                mainSeniority = seniorityEnum,
+                mainStack = mainStack,
+                mainRole = mainRole,
+                city = location?.city,
+                state = location?.state,
+                remotePreference = location?.workFormat?.uppercase(),
+                hardSkills = hardSkills,
+                softSkills = softSkills
+            )
+        }
+
+        val saved = CandidateProfileRepository.save(profile)
+
+        // -------- ATUALIZA CAMPOS DO CANDIDATE (para compatibilidade) --------
+        candidate.name = dto.name ?: candidate.name
+        candidate.email = dto.email ?: candidate.email
+        candidate.phoneNumber = dto.phone ?: candidate.phoneNumber
+
+        candidate.education = dto.education.joinToString(" | ") {
+            listOfNotNull(it.level, it.course, it.institution).joinToString(" - ")
+        }
+
+        candidate.skills = hardSkills
+        candidate.experience = dto.experiences.joinToString(" | ") {
+            listOfNotNull(it.role, it.company).joinToString(" em ")
+        }
+
+        candidate.state = location?.state ?: candidate.state
+
+        candidateService.repository.save(candidate)
+
+        return ResponseEntity.ok(saved)
     }
 
 

@@ -29,11 +29,13 @@ data class Candidate(
     var currentStage: String? = "aguardando_triagem",
 
     @Column(name = "status")
-var status: String? = "ativo",
+    var status: String? = "ativo",
 
-@Column(name = "rejection_reason")
-var rejectionReason: String? = null,
+    @Column(name = "rejection_reason")
+    var rejectionReason: String? = null,
 
-@Column(name = "vacancy_id")
-var vacancyId: Long? = null
-)
+    @Column(name = "vacancy_id")
+    var vacancyId: Long? = null
+) {
+    companion object
+}
