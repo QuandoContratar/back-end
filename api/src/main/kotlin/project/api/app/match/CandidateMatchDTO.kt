@@ -1,11 +1,5 @@
 package project.api.app.match
 
-import project.api.app.candidates.data.Candidate
-import project.api.app.candidates.data.CandidateDetailsDTO
-import project.api.app.vacancies.data.Vacancy
-import project.api.app.vacancies.data.VacancyDto
-import project.api.app.vacancies.data.WorkModel
-
 
 //data class CandidateDTO(
 //    val id: Int,
@@ -94,7 +88,8 @@ data class CandidateMatchDTO(
     val vacancyId: Int,
     val vacancyJob: String,
     val score: Double,
-    val matchLevel: MatchLevel
+    val matchLevel: MatchLevel,
+    val managerName: String
 ) {
     companion object {
 
@@ -105,6 +100,7 @@ data class CandidateMatchDTO(
                 candidateName = match.candidate.name ?: "",
                 vacancyId = match.vacancy.id ?: 0,
                 vacancyJob = match.vacancy.position_job ?: "",
+                managerName = match.vacancy.manager?.name ?: "Não informado",   // <-- pegar gestor corretamente
                 score = match.score,
                 matchLevel = match.matchLevel
             )

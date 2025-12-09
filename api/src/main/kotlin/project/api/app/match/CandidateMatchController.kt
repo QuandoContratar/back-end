@@ -102,7 +102,7 @@ class CandidateMatchController(
 
         val process = SelectionProcess(
             progress = 0.0,
-            currentStage = CurrentStage.triagem_inicial,
+            currentStage = CurrentStage.aguardando_triagem,
             outcome = Outcome.reprovado,
             createdAt = LocalDateTime.now(),
             candidate = match.candidate,
