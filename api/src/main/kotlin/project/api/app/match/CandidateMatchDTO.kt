@@ -89,7 +89,8 @@ data class CandidateMatchDTO(
     val vacancyJob: String,
     val score: Double,
     val matchLevel: MatchLevel,
-    val managerName: String
+    val managerName: String,
+    val status: String
 ) {
     companion object {
 
@@ -102,7 +103,8 @@ data class CandidateMatchDTO(
                 vacancyJob = match.vacancy.position_job ?: "",
                 managerName = match.vacancy.manager?.name ?: "Não informado",   // <-- pegar gestor corretamente
                 score = match.score,
-                matchLevel = match.matchLevel
+                matchLevel = match.matchLevel,
+                status = match.status.name.lowercase()
             )
         }
     }

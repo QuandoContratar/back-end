@@ -12,6 +12,8 @@ import project.api.app.users.UserService
 import project.api.app.vacancies.VacancyService
 import java.time.LocalDateTime
 
+
+
 @RestController
 @RequestMapping("/match")
 class CandidateMatchController(
@@ -41,6 +43,8 @@ class CandidateMatchController(
     fun listMatchesByVacancy(@PathVariable vacancyId: Int): ResponseEntity<List<CandidateMatchDTO>> {
 
         val matches = candidateMatchRepository.findByVacancyId(vacancyId)
+            .filter { it.status == MatchStatus.PENDING }
+
         val dtos = matches.map { CandidateMatchDTO.from(it) }
 
         return ResponseEntity.ok(dtos)
@@ -78,26 +82,37 @@ class CandidateMatchController(
     // =============================
     @PostMapping("/{matchId}/accept")
     fun acceptCandidate(@PathVariable matchId: Int): ResponseEntity<SelectionProcess> {
-        val match = candidateMatchRepository.findById(matchId).orElseThrow()
 
-        val process = SelectionProcess(
-            progress = 0.0,
-            currentStage = CurrentStage.aguardando_triagem,
-            outcome = Outcome.aprovado,
-            createdAt = LocalDateTime.now(),
-            candidate = match.candidate,
-            vacancy = match.vacancy,
-            recruiter = loggedUserProvider.getLoggedUser()
-        )
+        val createdProcess = matchService.acceptMatch(matchId)
 
-        return ResponseEntity.ok(selectionProcessRepository.save(process))
+        return ResponseEntity.ok(createdProcess)
+
     }
+
+//    @PostMapping("/{matchId}/accept")
+//    fun acceptCandidate(@PathVariable matchId: Int): ResponseEntity<SelectionProcess> {
+//        val match = candidateMatchRepository.findById(matchId).orElseThrow()
+//
+//        val process = SelectionProcess(
+//            progress = 0.0,
+//            currentStage = CurrentStage.aguardando_triagem,
+//            outcome = Outcome.aprovado,
+//            createdAt = LocalDateTime.now(),
+//            candidate = match.candidate,
+//            vacancy = match.vacancy,
+//            recruiter = loggedUserProvider.getLoggedUser()
+//        )
+//
+//        return ResponseEntity.ok(selectionProcessRepository.save(process))
+//    }
 
     // =============================
     // 5. REJEITAR MATCH
     // =============================
+
     @PostMapping("/{matchId}/reject")
     fun rejectCandidate(@PathVariable matchId: Int): ResponseEntity<SelectionProcess> {
+
         val match = candidateMatchRepository.findById(matchId).orElseThrow()
 
         val process = SelectionProcess(
@@ -110,8 +125,28 @@ class CandidateMatchController(
             recruiter = loggedUserProvider.getLoggedUser()
         )
 
+        match.status = MatchStatus.REJECTED
+        candidateMatchRepository.save(match)
+
         return ResponseEntity.ok(selectionProcessRepository.save(process))
     }
+
+//    @PostMapping("/{matchId}/reject")
+//    fun rejectCandidate(@PathVariable matchId: Int): ResponseEntity<SelectionProcess> {
+//        val match = candidateMatchRepository.findById(matchId).orElseThrow()
+//
+//        val process = SelectionProcess(
+//            progress = 0.0,
+//            currentStage = CurrentStage.aguardando_triagem,
+//            outcome = Outcome.reprovado,
+//            createdAt = LocalDateTime.now(),
+//            candidate = match.candidate,
+//            vacancy = match.vacancy,
+//            recruiter = loggedUserProvider.getLoggedUser()
+//        )
+//
+//        return ResponseEntity.ok(selectionProcessRepository.save(process))
+//    }
 
     // =============================
     // 6. LISTAR MATCHES POR CANDIDATO
@@ -122,10 +157,21 @@ class CandidateMatchController(
         val dtos = matches.map { CandidateMatchDTO.from(it) }
         return ResponseEntity.ok(dtos)
     }
+
+    @GetMapping("/pending")
+    fun listPending(): ResponseEntity<List<CandidateMatchDTO>> {
+        val pendingMatches = matchService.findPending()
+
+        val dtos = pendingMatches.map { matchObj ->
+            CandidateMatchDTO.from(matchObj)
+        }
+
+        return ResponseEntity.ok(dtos)
+    }
+
+
+
 }
-
-
-
 
 //@RestController
 //@RequestMapping("/match")
