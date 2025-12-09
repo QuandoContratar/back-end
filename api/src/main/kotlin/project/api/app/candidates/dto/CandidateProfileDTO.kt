@@ -26,8 +26,8 @@ data class EducationDTO(
 data class ExperienceDTO(
     val company: String?,
     val role: String?,
-    val startDate: String?,   // "2020-06"
-    val endDate: String?,     // "2022-12" ou null se atual
+    val start: String?,   // "2020-06"
+    val end: String?,     // "2022-12" ou null se atual
     val technologies: List<String>?,
     val responsibilities: List<String>?
 )
