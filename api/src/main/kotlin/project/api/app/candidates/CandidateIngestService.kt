@@ -48,23 +48,28 @@ class CandidateIngestService(
         )
 
         // 2. Criar o candidate_profile
-        val rawJson = mapOf(
+        val rawJsonMap = mapOf(
             "education" to dto.education,
             "experiences" to dto.experiences,
             "skills" to dto.skills,
             "softSkills" to dto.softSkills,
-            "seniority" to dto.seniority
+            "seniority" to dto.seniority,
+            "location" to dto.location
         )
+
+        val mapper = com.fasterxml.jackson.module.kotlin.jacksonObjectMapper()
+        val rawJsonString = mapper.writeValueAsString(rawJsonMap)
 
         profileRepository.save(
             CandidateProfile(
                 candidate = savedCandidate,
-                rawJson = rawJson.toString(),
+                rawJson = rawJsonString,
                 totalExperienceYears = dto.totalExperienceYears,
                 mainSeniority = dto.seniority
                     ?.uppercase()
                     ?.let { SeniorityLevel.valueOf(it) },
                 mainStack = dto.skills?.firstOrNull(),
+                mainRole = dto.experiences.firstOrNull()?.role,
                 city = dto.location?.city,
                 state = dto.location?.state,
                 remotePreference = dto.location?.workFormat ?: "REMOTO",
