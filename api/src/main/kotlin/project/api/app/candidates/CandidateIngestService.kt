@@ -61,7 +61,9 @@ class CandidateIngestService(
                 candidate = savedCandidate,
                 rawJson = rawJson.toString(),
                 totalExperienceYears = dto.totalExperienceYears,
-                mainSeniority = dto.seniority?.uppercase() as SeniorityLevel?,
+                mainSeniority = dto.seniority
+                    ?.uppercase()
+                    ?.let { SeniorityLevel.valueOf(it) },
                 mainStack = dto.skills?.firstOrNull(),
                 city = dto.location?.city,
                 state = dto.location?.state,
