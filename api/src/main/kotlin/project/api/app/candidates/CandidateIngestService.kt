@@ -27,6 +27,37 @@ class CandidateIngestService(
     private val smartMatchService: CandidateSmartMatchService
 ) {
 
+    private fun normalizeSeniority(raw: String?): SeniorityLevel? {
+        if (raw.isNullOrBlank()) return null
+
+        // Remover acentos e padronizar
+        val cleaned = java.text.Normalizer.normalize(raw, java.text.Normalizer.Form.NFD)
+            .replace("[^\\p{ASCII}]".toRegex(), "")
+            .trim()
+            .uppercase()
+
+        return when {
+            // JUNIOR
+            cleaned in listOf("JUNIOR", "JR", "JNR", "JUN", "JUNIOR.", "JUNIORA", "JUN") ->
+                SeniorityLevel.JUNIOR
+
+            // PLENO
+            cleaned in listOf("PLENO", "PLENA", "PLN", "PL") ->
+                SeniorityLevel.PLENO
+
+            // SENIOR
+            cleaned in listOf("SENIOR", "SR", "SNR", "SEN", "SENIOR.", "SENH") ->
+                SeniorityLevel.SENIOR
+
+            // LEAD
+            cleaned in listOf("LEAD", "LIDER", "LIDER TECNICO", "TECH LEAD", "TL") ->
+                SeniorityLevel.LEAD
+
+            else -> null
+        }
+    }
+
+
     @Transactional
     fun ingest(dto: CandidateProfileDTO): Candidate {
 
@@ -65,9 +96,7 @@ class CandidateIngestService(
                 candidate = savedCandidate,
                 rawJson = rawJsonString,
                 totalExperienceYears = dto.totalExperienceYears,
-                mainSeniority = dto.seniority
-                    ?.uppercase()
-                    ?.let { SeniorityLevel.valueOf(it) },
+                mainSeniority = normalizeSeniority(dto.seniority),
                 mainStack = dto.skills?.firstOrNull(),
                 mainRole = dto.experiences.firstOrNull()?.role,
                 city = dto.location?.city,
