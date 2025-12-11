@@ -3,8 +3,8 @@
 -- Sistema: Quando Contratar
 -- ========================================
 
--- DROP DATABASE IF EXISTS quando_contratar;
--- CREATE DATABASE quando_contratar;
+DROP DATABASE IF EXISTS quando_contratar;
+CREATE DATABASE quando_contratar;
 USE quando_contratar;
 
 -- ========================================
@@ -120,17 +120,17 @@ CREATE TABLE IF NOT EXISTS kanban_stage (
     position_order INT NOT NULL
 );
 
--- INSERT INTO kanban_stage (name, position_order) VALUES
--- ('aguardando_triagem',1),
--- ('triagem', 2),
--- ('entrevista_rh',3),
--- ('avaliacao_fit_cultural', 4),
--- ('teste_tecnico', 5),
--- ('entrevista_tecnica', 6),
--- ('entrevista_final', 7),
--- ('proposta_fechamento', 8),
--- ('contratacao', 9),
--- ('rejeitados', 10);
+INSERT INTO kanban_stage (name, position_order) VALUES
+('aguardando_triagem',1),
+('triagem', 2),
+('entrevista_rh',3),
+('avaliacao_fit_cultural', 4),
+('teste_tecnico', 5),
+('entrevista_tecnica', 6),
+('entrevista_final', 7),
+('proposta_fechamento', 8),
+('contratacao', 9),
+('rejeitados', 10);
 
 
 -- ========================================
@@ -196,11 +196,11 @@ CREATE TABLE IF NOT EXISTS candidate_match (
     UNIQUE KEY unique_match (fk_candidate, fk_vacancy)
 );
 
--- INSERT INTO user (name, email, password, area, level_access) VALUES
--- ('Carlos Manager', 'carlos@empresa.com', '123', 'TI', 'MANAGER'),
--- ('Ana Gestora', 'ana@empresa.com', '123', 'Marketing', 'MANAGER'),
--- ('João RH', 'joao.rh@empresa.com', '123', 'RH', 'HR'),
--- ('Admin Master', 'admin@empresa.com', '123', 'Diretoria', 'ADMIN');
+INSERT INTO user (name, email, password, area, level_access) VALUES
+('Carlos Manager', 'carlos@empresa.com', '123', 'TI', 'MANAGER'),
+('Ana Gestora', 'ana@empresa.com', '123', 'Marketing', 'MANAGER'),
+('João RH', 'joao.rh@empresa.com', '123', 'RH', 'HR'),
+('Admin Master', 'admin@empresa.com', '123', 'Diretoria', 'ADMIN');
 
 
 INSERT INTO vacancies (position_job, period, work_model, requirements, contract_type, salary, location, opening_justification, area, status_vacancy, fk_manager)
@@ -234,7 +234,7 @@ VALUES
 
 INSERT INTO candidate_match (fk_candidate, fk_vacancy, score, match_level)
 VALUES
--- (1, 1, 82.5, 'ALTO'),
+(1, 1, 82.5, 'ALTO'),
 (6, 1, 90.0, 'DESTAQUE'),
 
 (2, 2, 75.0, 'MEDIO'),
