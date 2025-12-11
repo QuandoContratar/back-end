@@ -11,7 +11,7 @@ USE quando_contratar;
 -- TABELA: user (Usuários do sistema)
 -- ========================================
 
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS user (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -24,7 +24,7 @@ CREATE TABLE user (
 -- ========================================
 -- TABELA: candidate (Candidatos)
 -- ========================================
-CREATE TABLE candidate (
+CREATE TABLE IF NOT EXISTS candidate (
     id_candidate INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     birth DATE,
@@ -46,7 +46,7 @@ CREATE TABLE candidate (
 -- ========================================
 -- TABELA: vacancies (Vagas)
 -- ========================================
-CREATE TABLE vacancies (
+CREATE TABLE IF NOT EXISTS vacancies (
     id_vacancy INT AUTO_INCREMENT PRIMARY KEY,
     position_job VARCHAR(100) NOT NULL,
     period VARCHAR(20),
@@ -67,7 +67,7 @@ CREATE TABLE vacancies (
 -- TABELA: opening_requests (Solicitações de Abertura de Vaga)
 -- IMPORTANTE: Esta tabela é usada pelo frontend para criar solicitações
 -- ========================================
-CREATE TABLE opening_requests (
+CREATE TABLE IF NOT EXISTS opening_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cargo VARCHAR(100) NOT NULL,
     periodo VARCHAR(50) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE opening_requests (
     INDEX idx_status (status)
 );
 
-CREATE TABLE candidate_profile (
+CREATE TABLE IF NOT EXISTS candidate_profile (
     id_profile INT AUTO_INCREMENT PRIMARY KEY,
     fk_candidate INT NOT NULL,
     raw_json JSON NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE candidate_profile (
 -- KANBAN – ESTÁGIOS
 -- ========================================
 
-CREATE TABLE kanban_stage (
+CREATE TABLE IF NOT EXISTS kanban_stage (
     id_stage INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     position_order INT NOT NULL
@@ -137,7 +137,7 @@ INSERT INTO kanban_stage (name, position_order) VALUES
 -- KANBAN – CARDS
 -- ========================================
 
-CREATE TABLE kanban_card (
+CREATE TABLE IF NOT EXISTS kanban_card (
     id_card INT AUTO_INCREMENT PRIMARY KEY,
     fk_candidate INT NOT NULL,
     fk_vacancy INT NOT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE kanban_card (
 -- ========================================
 -- TABELA: selection_process (Processo Seletivo)
 -- ========================================
-CREATE TABLE selection_process (
+CREATE TABLE IF NOT EXISTS selection_process (
     `id_selection` INT AUTO_INCREMENT PRIMARY KEY,
     `progress` DECIMAL(5, 2) DEFAULT 0.00,
     `current_stage` ENUM (
@@ -183,7 +183,7 @@ CREATE TABLE selection_process (
 -- ========================================
 -- TABELA: candidate_match (Match de Candidatos com Vagas)
 -- ========================================
-CREATE TABLE candidate_match (
+CREATE TABLE IF NOT EXISTS candidate_match (
     id_match INT AUTO_INCREMENT PRIMARY KEY,
     fk_candidate INT NOT NULL,
     fk_vacancy INT NOT NULL,
