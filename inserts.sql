@@ -120,17 +120,17 @@ CREATE TABLE IF NOT EXISTS kanban_stage (
     position_order INT NOT NULL
 );
 
-INSERT INTO kanban_stage (name, position_order) VALUES
-('aguardando_triagem',1),
-('triagem', 2),
-('entrevista_rh',3),
-('avaliacao_fit_cultural', 4),
-('teste_tecnico', 5),
-('entrevista_tecnica', 6),
-('entrevista_final', 7),
-('proposta_fechamento', 8),
-('contratacao', 9),
-('rejeitados', 10);
+-- INSERT INTO kanban_stage (name, position_order) VALUES
+-- ('aguardando_triagem',1),
+-- ('triagem', 2),
+-- ('entrevista_rh',3),
+-- ('avaliacao_fit_cultural', 4),
+-- ('teste_tecnico', 5),
+-- ('entrevista_tecnica', 6),
+-- ('entrevista_final', 7),
+-- ('proposta_fechamento', 8),
+-- ('contratacao', 9),
+-- ('rejeitados', 10);
 
 
 -- ========================================
