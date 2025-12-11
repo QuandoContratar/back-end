@@ -3,8 +3,8 @@
 -- Sistema: Quando Contratar
 -- ========================================
 
-DROP DATABASE IF EXISTS quando_contratar;
-CREATE DATABASE quando_contratar;
+-- DROP DATABASE IF EXISTS quando_contratar;
+-- CREATE DATABASE quando_contratar;
 USE quando_contratar;
 
 -- ========================================
