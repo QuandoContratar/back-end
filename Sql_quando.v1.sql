@@ -129,7 +129,7 @@ INSERT INTO kanban_stage (name, position_order) VALUES
 ('entrevista_tecnica', 6),
 ('entrevista_final', 7),
 ('proposta_fechamento', 8),
-('contratacao', 9);
+('contratacao', 9),
 ('rejeitados', 10);
 
 
@@ -224,12 +224,12 @@ INSERT INTO vacancies (position_job, period, work_model, requirements, contract_
 -- Solicitações de abertura de vaga (exemplos)
 -- IMPORTANTE: gestor_id deve referenciar um id_user válido
 INSERT INTO opening_requests
-(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, justificativa_path, gestor_id, status)
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, justificativa_path, gestor_id, status, area)
 VALUES
-('Engenheiro de Software', 'Full-time', 'remoto', 'CLT', 12000.00, 'São Paulo', 'Experiência com Java, Spring Boot e Docker', '/docs/justificativas/justificativa1.pdf', 1, 'ENTRADA'),
-('Analista de Suporte', 'Part-time', 'presencial', 'PJ', 4000.00, 'Rio de Janeiro', 'Conhecimento em Linux e Redes', '/docs/justificativas/justificativa2.pdf', 1, 'ENTRADA'),
-('Designer UX/UI', 'Full-time', 'híbrido', 'CLT', 7000.00, 'Belo Horizonte', 'Experiência com Figma e Design Systems', NULL, 1, 'APROVADA'),
-('Cientista de Dados', 'Full-time', 'remoto', 'CLT', 15000.00, 'São Paulo', 'Python, Machine Learning, SQL', '/docs/justificativas/justificativa3.pdf', 4, 'ENTRADA');
+('Engenheiro de Software', 'Full-time', 'remoto', 'CLT', 12000.00, 'São Paulo', 'Experiência com Java, Spring Boot e Docker', '/docs/justificativas/justificativa1.pdf', 1, 'ENTRADA', 'Tecnologia'),
+('Analista de Suporte', 'Part-time', 'presencial', 'PJ', 4000.00, 'Rio de Janeiro', 'Conhecimento em Linux e Redes', '/docs/justificativas/justificativa2.pdf', 1, 'ENTRADA', 'Tecnologia'),
+('Designer UX/UI', 'Full-time', 'híbrido', 'CLT', 7000.00, 'Belo Horizonte', 'Experiência com Figma e Design Systems', NULL, 1, 'APROVADA', 'Design'),
+('Cientista de Dados', 'Full-time', 'remoto', 'CLT', 15000.00, 'São Paulo', 'Python, Machine Learning, SQL', '/docs/justificativas/justificativa3.pdf', 4, 'ENTRADA', 'Dados');
 
 INSERT INTO kanban_card (fk_candidate, fk_vacancy, fk_stage, match_level)
 VALUES
@@ -625,41 +625,41 @@ update vacancies set fk_manager = 1 where id_vacancy = 6;
 update vacancies set status_vacancy = 'aberta' where id_vacancy = 6;
 
 INSERT INTO opening_requests
-(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status, area)
 VALUES
-('Dev Backend Junior', 'Full-time', 'remoto', 'CLT', 6500, 'São Paulo', 'Java, Spring Boot', 1, 'ENTRADA'),
-('Analista de Infraestrutura', 'Full-time', 'presencial', 'CLT', 8000, 'Rio de Janeiro', 'Linux, Redes, Docker', 1, 'ENTRADA'),
-('Assistente de RH', 'Part-time', 'híbrido', 'CLT', 3000, 'Curitiba', 'Atendimento, Organização', 1, 'ENTRADA');
+('Dev Backend Junior', 'Full-time', 'remoto', 'CLT', 6500, 'São Paulo', 'Java, Spring Boot', 1, 'ENTRADA', 'Tecnologia'),
+('Analista de Infraestrutura', 'Full-time', 'presencial', 'CLT', 8000, 'Rio de Janeiro', 'Linux, Redes, Docker', 1, 'ENTRADA', 'Infraestrutura'),
+('Assistente de RH', 'Part-time', 'híbrido', 'CLT', 3000, 'Curitiba', 'Atendimento, Organização', 1, 'ENTRADA', 'RH');
 
 
 INSERT INTO opening_requests
-(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status, area)
 VALUES
-('Product Manager', 'Full-time', 'remoto', 'CLT', 12000, 'São Paulo', 'Scrum, Jira, UX', 1, 'ABERTA'),
-('QA Analyst Pleno', 'Full-time', 'presencial', 'CLT', 7000, 'Belo Horizonte', 'Testes manuais e automação', 1, 'ABERTA'),
-('Estagiário de Suporte', 'Part-time', 'presencial', 'Estágio', 1800, 'São Paulo', 'Redes básicas, Windows', 1, 'ABERTA'),
-('Dev Front-end', 'Full-time', 'híbrido', 'PJ', 9000, 'Campinas', 'React, JS, HTML/CSS', 4, 'ABERTA');
+('Product Manager', 'Full-time', 'remoto', 'CLT', 12000, 'São Paulo', 'Scrum, Jira, UX', 1, 'ABERTA', 'Produto'),
+('QA Analyst Pleno', 'Full-time', 'presencial', 'CLT', 7000, 'Belo Horizonte', 'Testes manuais e automação', 1, 'ABERTA', 'Qualidade'),
+('Estagiário de Suporte', 'Part-time', 'presencial', 'Estágio', 1800, 'São Paulo', 'Redes básicas, Windows', 1, 'ABERTA', 'Tecnologia'),
+('Dev Front-end', 'Full-time', 'híbrido', 'PJ', 9000, 'Campinas', 'React, JS, HTML/CSS', 4, 'ABERTA', 'Tecnologia');
 
 
 INSERT INTO opening_requests
-(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status, area)
 VALUES
-('Designer UI/UX', 'Full-time', 'remoto', 'CLT', 7500, 'São Paulo', 'Figma, Design System', 1, 'APROVADA'),
-('DevOps Engineer', 'Full-time', 'remoto', 'CLT', 14000, 'São Paulo', 'AWS, CI/CD, Kubernetes', 1, 'APROVADA');
+('Designer UI/UX', 'Full-time', 'remoto', 'CLT', 7500, 'São Paulo', 'Figma, Design System', 1, 'APROVADA', 'Design'),
+('DevOps Engineer', 'Full-time', 'remoto', 'CLT', 14000, 'São Paulo', 'AWS, CI/CD, Kubernetes', 1, 'APROVADA', 'Infraestrutura');
 
 
 INSERT INTO opening_requests
-(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status, area)
 VALUES
-('Assistente Administrativo', 'Full-time', 'presencial', 'CLT', 2500, 'São Paulo', 'Organização, Excel básico', 1, 'REJEITADA'),
-('Scrum Master', 'Full-time', 'remoto', 'PJ', 11000, 'Rio de Janeiro', 'Scrum, Agile Coaching', 1, 'REJEITADA');
+('Assistente Administrativo', 'Full-time', 'presencial', 'CLT', 2500, 'São Paulo', 'Organização, Excel básico', 1, 'REJEITADA', 'Operacional'),
+('Scrum Master', 'Full-time', 'remoto', 'PJ', 11000, 'Rio de Janeiro', 'Scrum, Agile Coaching', 1, 'REJEITADA', 'Agilidade');
 
 
 INSERT INTO opening_requests
-(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status)
+(cargo, periodo, modelo_trabalho, regime_contratacao, salario, localidade, requisitos, gestor_id, status, area)
 VALUES
-('Auxiliar de Logística', 'Full-time', 'presencial', 'CLT', 2400, 'Curitiba', 'Expedição, Organização', 1, 'CANCELADA'),
-('Cientista de Dados', 'Full-time', 'remoto', 'CLT', 16000, 'São Paulo', 'Python, ML, SQL', 4, 'CANCELADA');
+('Auxiliar de Logística', 'Full-time', 'presencial', 'CLT', 2400, 'Curitiba', 'Expedição, Organização', 1, 'CANCELADA', 'Operacional'),
+('Cientista de Dados', 'Full-time', 'remoto', 'CLT', 16000, 'São Paulo', 'Python, ML, SQL', 4, 'CANCELADA', 'Dados');
 
 select * from opening_requests;
 
