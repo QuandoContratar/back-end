@@ -11,7 +11,8 @@ data class CandidateProfileDTO(
     val skills: List<String>,
     val softSkills: List<String>?,
     val totalExperienceYears: Double?,
-    val seniority: String?
+    val seniority: String?,
+    var pathResume: String?
 )
 
 

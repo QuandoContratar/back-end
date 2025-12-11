@@ -35,7 +35,9 @@ data class Candidate(
     var rejectionReason: String? = null,
 
     @Column(name = "vacancy_id")
-    var vacancyId: Long? = null
+    var vacancyId: Long? = null,
+
+    var pathResume: String? = null,
 ) {
     companion object
 }

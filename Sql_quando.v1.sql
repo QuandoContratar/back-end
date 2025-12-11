@@ -36,6 +36,7 @@ CREATE TABLE candidate (
     skills VARCHAR(500),
     experience TEXT,
     resume MEDIUMBLOB,
+    path_resume VARCHAR(100),
 	current_stage VARCHAR(50) DEFAULT 'aguardando_triagem',
     status VARCHAR(20) DEFAULT 'ativo',
     rejection_reason VARCHAR(500),
