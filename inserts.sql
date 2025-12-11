@@ -196,11 +196,11 @@ CREATE TABLE IF NOT EXISTS candidate_match (
     UNIQUE KEY unique_match (fk_candidate, fk_vacancy)
 );
 
-INSERT INTO user (name, email, password, area, level_access) VALUES
-('Carlos Manager', 'carlos@empresa.com', '123', 'TI', 'MANAGER'),
-('Ana Gestora', 'ana@empresa.com', '123', 'Marketing', 'MANAGER'),
-('João RH', 'joao.rh@empresa.com', '123', 'RH', 'HR'),
-('Admin Master', 'admin@empresa.com', '123', 'Diretoria', 'ADMIN');
+-- INSERT INTO user (name, email, password, area, level_access) VALUES
+-- ('Carlos Manager', 'carlos@empresa.com', '123', 'TI', 'MANAGER'),
+-- ('Ana Gestora', 'ana@empresa.com', '123', 'Marketing', 'MANAGER'),
+-- ('João RH', 'joao.rh@empresa.com', '123', 'RH', 'HR'),
+-- ('Admin Master', 'admin@empresa.com', '123', 'Diretoria', 'ADMIN');
 
 
 INSERT INTO vacancies (position_job, period, work_model, requirements, contract_type, salary, location, opening_justification, area, status_vacancy, fk_manager)
