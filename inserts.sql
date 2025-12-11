@@ -234,7 +234,7 @@ VALUES
 
 INSERT INTO candidate_match (fk_candidate, fk_vacancy, score, match_level)
 VALUES
-(1, 1, 82.5, 'ALTO'),
+-- (1, 1, 82.5, 'ALTO'),
 (6, 1, 90.0, 'DESTAQUE'),
 
 (2, 2, 75.0, 'MEDIO'),
