@@ -10,5 +10,6 @@ data class VacancyOpeningDTO(
     val location: String?,
     val area: String?,
     val openingJustification: String?,
-    val statusVacancy: String?
+    val statusVacancy: String?,
+    val managerName: String?
 )

@@ -53,7 +53,8 @@ class VacancyService(
                 location = row[6] as? String,
                 area = row[7] as? String,
                 openingJustification = row[8] as? String,
-                statusVacancy = row[9] as? String
+                statusVacancy = row[9] as? String,
+                managerName = row[10] as? String
             )
         }
     }
