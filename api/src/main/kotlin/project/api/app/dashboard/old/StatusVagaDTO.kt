@@ -1,4 +1,4 @@
-package project.api.app.dashboard
+package project.api.app.dashboard.old
 
 data class StatusVagasDTO(
     val status: String,

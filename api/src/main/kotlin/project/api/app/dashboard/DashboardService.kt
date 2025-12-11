@@ -73,6 +73,23 @@
 package project.api.app.dashboard
 
 import org.springframework.stereotype.Service
+import project.api.app.dashboard.old.CandidatesByStateDTO
+import project.api.app.dashboard.old.CandidatosPorVagaDTO
+import project.api.app.dashboard.old.DashboardMetricsDTO
+import project.api.app.dashboard.old.FirstContactDTO
+import project.api.app.dashboard.old.HardSkillDTO
+import project.api.app.dashboard.old.ManagerPerformanceDTO
+import project.api.app.dashboard.old.MatchLevelDistributionDTO
+import project.api.app.dashboard.old.SoftSkillDTO
+import project.api.app.dashboard.old.StageAvgTimeDTO
+import project.api.app.dashboard.old.StageCountDTO
+import project.api.app.dashboard.old.StatusVagasDTO
+import project.api.app.dashboard.old.TempoMedioPreenchimentoDTO
+import project.api.app.dashboard.old.TipoContratoDTO
+import project.api.app.dashboard.old.TopCandidateMatchDTO
+import project.api.app.dashboard.old.VacancyRecommendationDTO
+import project.api.app.dashboard.old.VacancyStatusSummaryDTO
+import project.api.app.dashboard.old.VagasPorMesDTO
 
 @Service
 class DashboardService(

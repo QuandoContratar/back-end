@@ -4,6 +4,17 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import project.api.app.dashboard.old.CandidatesByStateDTO
+import project.api.app.dashboard.old.FirstContactDTO
+import project.api.app.dashboard.old.HardSkillDTO
+import project.api.app.dashboard.old.ManagerPerformanceDTO
+import project.api.app.dashboard.old.MatchLevelDistributionDTO
+import project.api.app.dashboard.old.SoftSkillDTO
+import project.api.app.dashboard.old.StageAvgTimeDTO
+import project.api.app.dashboard.old.StageCountDTO
+import project.api.app.dashboard.old.TopCandidateMatchDTO
+import project.api.app.dashboard.old.VacancyRecommendationDTO
+import project.api.app.dashboard.old.VacancyStatusSummaryDTO
 
 @RestController
 @RequestMapping("/dashboard")
