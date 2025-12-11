@@ -91,14 +91,15 @@ class RecruitmentDashboardRepository {
     fun ocupacao(vagaId: Int): List<Array<Any>> =
         em.createNativeQuery(
             """
-            SELECT 
-                v.total_positions,
-                SUM(CASE WHEN ks.name IN ('contratacao','proposta_fechamento') THEN 1 ELSE 0 END)
-            FROM vacancies v
-            LEFT JOIN kanban_card kc ON kc.fk_vacancy = v.id_vacancy
-            LEFT JOIN kanban_stage ks ON ks.id_stage = kc.fk_stage
-            WHERE v.id_vacancy = :id
-            GROUP BY v.id_vacancy
+          SELECT 
+    COUNT(kc.id_card) AS total_candidatos,
+    SUM(CASE WHEN ks.name IN ('contratacao','proposta_fechamento') THEN 1 ELSE 0 END) AS total_contratados
+FROM vacancies v
+LEFT JOIN kanban_card kc ON kc.fk_vacancy = v.id_vacancy
+LEFT JOIN kanban_stage ks ON ks.id_stage = kc.fk_stage
+WHERE v.id_vacancy = :id
+GROUP BY v.id_vacancy
+
         """
         )
             .setParameter("id", vagaId)

@@ -78,6 +78,7 @@ CREATE TABLE opening_requests (
     requisitos TEXT,
     justificativa_path VARCHAR(255),
     gestor_id INT NOT NULL,
+    area VARCHAR(100) NOT NULL,
     status ENUM('ENTRADA', 'ABERTA', 'APROVADA', 'REJEITADA', 'CANCELADA') DEFAULT 'ENTRADA',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (gestor_id) REFERENCES user(id_user) ON DELETE CASCADE,
@@ -129,6 +130,8 @@ INSERT INTO kanban_stage (name, position_order) VALUES
 ('entrevista_final', 7),
 ('proposta_fechamento', 8),
 ('contratacao', 9);
+('rejeitados', 10);
+
 
 -- ========================================
 -- KANBAN – CARDS
@@ -140,6 +143,7 @@ CREATE TABLE kanban_card (
     fk_vacancy INT NOT NULL,
     fk_stage INT NOT NULL,
     match_level ENUM('BAIXO','MEDIO','ALTO','DESTAQUE') DEFAULT 'MEDIO',
+    rejection_reason VARCHAR(500),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (fk_candidate) REFERENCES candidate(id_candidate) ON DELETE CASCADE,

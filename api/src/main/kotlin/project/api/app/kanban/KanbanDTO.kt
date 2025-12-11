@@ -10,6 +10,7 @@ data class KanbanCardDTO(
     val contractType: String?,
     val managerName: String?,
     val currentStage: String,
+    val rejectionReason: String?,
     val progress: Double
 ) {
     companion object {
@@ -26,7 +27,8 @@ data class KanbanCardDTO(
                 workModel = card.vacancy.workModel?.name,
                 contractType = card.vacancy.contractType?.name,
                 managerName = card.vacancy.manager?.name,
-                currentStage = card.stage.name,  // ex: "triagem", "entrevista_rh"
+                currentStage = card.stage.name,
+                rejectionReason = card.rejectionReason,// ex: "triagem", "entrevista_rh"
                 progress = progress
             )
         }

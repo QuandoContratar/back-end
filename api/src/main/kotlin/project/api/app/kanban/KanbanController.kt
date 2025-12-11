@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import project.api.app.vacancies.opening.RejectCardRequest
 
 @RestController
 @RequestMapping("/selection-process")
@@ -39,4 +41,11 @@ class SelectionProcessKanbanProxyController(
             (it.managerName ?: "").lowercase().contains(query)
         }
     }
+
+    @PatchMapping("/kanban/{id}/reject")
+    fun rejectCard(
+        @PathVariable id: Int,
+        @RequestBody body: RejectCardRequest
+    ): KanbanCardDTO = KanbanService.rejectCard(id, body.reason)
+
 }

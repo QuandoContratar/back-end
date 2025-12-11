@@ -35,6 +35,8 @@ data class KanbanCard(
     @Enumerated(EnumType.STRING)
     val match_level: MatchLevel = MatchLevel.MEDIO,
 
+    val rejectionReason: String? = null,
+
     val created_at: LocalDateTime = LocalDateTime.now(),
 
     val updated_at: LocalDateTime = LocalDateTime.now()

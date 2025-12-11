@@ -44,6 +44,8 @@ data class OpeningRequest(
     @JoinColumn(name = "gestor_id")
     val gestor: User,
 
+    val area: String,
+
     @Enumerated(EnumType.STRING)
     var status: OpeningStatus = OpeningStatus.ENTRADA,
 
