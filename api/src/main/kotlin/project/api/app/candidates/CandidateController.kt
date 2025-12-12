@@ -22,9 +22,8 @@ import project.api.app.candidates.data.CandidateProfile
 import project.api.app.candidates.data.SeniorityLevel
 import project.api.app.candidates.dto.CandidateProfileDTO
 import project.api.app.candidates.dto.RejectCandidateRequest
+import project.api.app.match.CandidateMatchOrchestratorService
 import project.api.core.CrudController
-import project.api.core.utils.FileMediaTypeResolver
-import project.api.core.utils.FileStorageService
 import java.time.LocalDateTime
 
 
@@ -34,7 +33,8 @@ import java.time.LocalDateTime
 
 class CandidateController(
     private val candidateService: CandidateService,
-    private val CandidateProfileRepository: CandidateProfileRepository
+    private val CandidateProfileRepository: CandidateProfileRepository,
+    private val  matchOrchestrator: CandidateMatchOrchestratorService,
 ) : CrudController<Candidate>(candidateService) {
 
 
@@ -281,6 +281,23 @@ class CandidateController(
 
         return ResponseEntity.ok(saved)
     }
+
+    @PostMapping("/upload")
+    fun uploadResume(
+        @RequestParam("file") file: MultipartFile,
+        @RequestParam("vacancyId") vacancyId: Long
+    ): ResponseEntity<Any> {
+
+        val candidate = candidateService.saveResumeOnly(file)
+
+        matchOrchestrator.generateMatchForSingleVacancy(
+            candidate.idCandidate!!,
+            vacancyId
+        )
+
+        return ResponseEntity.ok(candidate)
+    }
+
 
 
 }

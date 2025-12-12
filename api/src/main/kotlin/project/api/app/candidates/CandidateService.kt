@@ -2,17 +2,21 @@ package project.api.app.candidates
 
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import project.api.app.File.FileMetadataRepository
-import project.api.app.File.data.FileMetadata
 import project.api.app.Selection.SelectionProcessRepository
 import project.api.app.Selection.data.CandidateCardDTO
 import project.api.app.candidates.data.Candidate
 import project.api.app.candidates.data.CandidateDetailsDTO
 import project.api.core.CrudService
-import project.api.core.utils.FileStorageService
 import java.time.LocalDate
 import java.time.Period
 import jakarta.persistence.EntityNotFoundException
+import project.api.app.match.CandidateMatch
+import project.api.app.match.CandidateMatchRepository
+import project.api.app.match.CandidateSmartMatchService
+import project.api.app.match.MatchLevel
+import project.api.app.match.MatchStatus
+import project.api.app.vacancies.VacancyRepository
+
 
 @Service
 class CandidateService (
@@ -201,5 +205,8 @@ class CandidateService (
             area = ""
         )
     }
+
+
+
 
 }

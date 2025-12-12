@@ -60,11 +60,11 @@ data class CandidateMatch(
     val vacancy: Vacancy,
 
     @Column(nullable = false)
-    val score: Double,
+    var score: Double,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "match_level", nullable = false)
-    val matchLevel: MatchLevel,
+    var matchLevel: MatchLevel,
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
