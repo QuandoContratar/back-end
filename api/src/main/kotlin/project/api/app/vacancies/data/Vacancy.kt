@@ -52,6 +52,8 @@ data class  Vacancy(
 
     var statusVacancy: String? = null,
 
+    var institution: String? = null,
+
 //    @Column(name = "manager_id")
 //    var managerId: Long? = null
 )
