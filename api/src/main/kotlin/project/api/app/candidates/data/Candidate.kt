@@ -38,6 +38,8 @@ data class Candidate(
     var vacancyId: Long? = null,
 
     var pathResume: String? = null,
+
+    var institution: String? = null,
 ) {
     companion object
 }

@@ -75,7 +75,8 @@ class CandidateIngestService(
                 experience = dto.experiences?.joinToString("\n") { exp ->
                     "${exp.role} - ${exp.company} (${exp.start} à ${exp.end})"
                 },
-                pathResume = dto.pathResume
+                pathResume = dto.pathResume,
+                institution = dto.education[0].institution
             )
         )
 
