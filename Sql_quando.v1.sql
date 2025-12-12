@@ -551,9 +551,6 @@ VALUES
  'aberta'
 );
 
-UPDATE candidate_match
-SET status = 'ACCEPTED'
-WHERE fk_candidate IN (15,17);
 -- ========================================
 -- CONSULTAS DE VERIFICAÇÃO
 -- ========================================
