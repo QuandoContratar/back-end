@@ -37,7 +37,7 @@ class KanbanService(
     fun rejectCard(cardId: Int, reason: String): KanbanCardDTO {
         val card = cardRepository.findById(cardId).orElseThrow()
 
-        val rejectStage = stageRepository.findByName("rejeitado")
+        val rejectStage = stageRepository.findByName("rejeitados")
             ?: throw RuntimeException("Stage 'rejeitado' não encontrado")
 
         val updated = card.copy(
