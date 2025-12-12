@@ -12,11 +12,10 @@ class CandidateIngestController(
 ) {
     @PostMapping("/ingest")
     fun ingestCandidate(
-        @RequestParam vacancyId: Long,
         @RequestBody dto: CandidateProfileDTO
     ): ResponseEntity<Any> {
 
-        val saved = ingestService.ingest(dto, vacancyId)
+        val saved = ingestService.ingest(dto)
 
         return ResponseEntity.ok(
             mapOf(

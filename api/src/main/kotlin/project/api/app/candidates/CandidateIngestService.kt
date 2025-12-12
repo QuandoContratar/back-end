@@ -62,7 +62,7 @@ class CandidateIngestService(
 
 
     @Transactional
-    fun ingest(dto: CandidateProfileDTO, vacancyId: Long): Candidate {
+    fun ingest(dto: CandidateProfileDTO): Candidate {
 
         // 1. Cria o Candidate
         val savedCandidate = candidateRepository.save(
@@ -100,10 +100,12 @@ class CandidateIngestService(
             )
         )
 
+        val vacancyId = dto.pathResume?.substringBefore('-')?.toLongOrNull()
+
         // 3. Gera match SOMENTE para a vaga selecionada
         matchOrchestrator.generateMatchForSingleVacancy(
             savedCandidate.idCandidate!!,
-            vacancyId
+            vacancyId!!
         )
 
         return savedCandidate
