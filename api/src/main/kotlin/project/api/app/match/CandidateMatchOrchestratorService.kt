@@ -1,6 +1,8 @@
 package project.api.app.match
 
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import project.api.app.candidates.CandidateProfileRepository
 import project.api.app.candidates.CandidateRepository
 import project.api.app.vacancies.VacancyRepository
 
@@ -9,9 +11,10 @@ class CandidateMatchOrchestratorService(
     private val candidateRepository: CandidateRepository,
     private val vacancyRepository: VacancyRepository,
     private val matchRepository: CandidateMatchRepository,
-    private val smartMatchService: CandidateSmartMatchService
+    private val smartMatchService: CandidateSmartMatchService,
+    private val profileRepository: CandidateProfileRepository
 ) {
-
+@Transactional
     fun generateMatchForSingleVacancy(candidateId: Int, vacancyId: Long) {
 
         val candidate = candidateRepository.findById(candidateId)
@@ -19,6 +22,8 @@ class CandidateMatchOrchestratorService(
 
         val vacancy = vacancyRepository.findById(vacancyId.toInt())
             .orElseThrow { RuntimeException("Vaga não encontrada") }
+
+    val profile = profileRepository.findByCandidateId(candidateId)?: throw RuntimeException("CandidateProfile não encontrado")
 
         val score = smartMatchService.calculateMatch(candidate, vacancy)
 
@@ -45,7 +50,8 @@ class CandidateMatchOrchestratorService(
                 candidate = candidate,
                 vacancy = vacancy,
                 score = score,
-                matchLevel = level
+                matchLevel = level,
+                status = MatchStatus.PENDING
             )
         )
     }
