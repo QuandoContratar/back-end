@@ -23,7 +23,7 @@ class CandidateMatchOrchestratorService(
         val vacancy = vacancyRepository.findById(vacancyId.toInt())
             .orElseThrow { RuntimeException("Vaga não encontrada") }
 
-    val profile = profileRepository.findByCandidateId(candidateId)?: throw RuntimeException("CandidateProfile não encontrado")
+    val profile = profileRepository.findByCandidate(candidate)?: throw RuntimeException("CandidateProfile não encontrado")
 
         val score = smartMatchService.calculateMatch(candidate, vacancy)
 

@@ -10,6 +10,5 @@ import project.api.app.candidates.data.CandidateProfile
 interface CandidateProfileRepository : JpaRepository<CandidateProfile, Int> {
 
     fun findByCandidate(candidate: Candidate): CandidateProfile?
-    fun findByCandidateId(idCandidate: Int): CandidateProfile?
 
 }
