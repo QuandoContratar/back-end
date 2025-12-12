@@ -12,6 +12,8 @@ import project.api.app.vacancies.data.VacancySummaryDTO
 import project.api.core.CrudController
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import project.api.app.vacancies.data.SendToApprovalRequest
 import project.api.app.vacancies.data.UpdateStatusRequest
 import project.api.app.vacancies.data.VacancyDto
@@ -43,7 +45,9 @@ fun sendMassive(
     @RequestBody vacancies: List<VacancyOpeningDTO>,
     session: HttpSession
 ): ResponseEntity<String> {
-    val usuario = session.getAttribute("usuarioLogado") as? User
+    val requestAttributes = RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes
+    val session = requestAttributes?.request?.session
+    val usuario = session?.getAttribute("usuarioLogado") as? User
         ?: return ResponseEntity.status(401).body("Usuário não logado")
 
     vacancyService.uploadAllVacancies(vacancies, usuario)
