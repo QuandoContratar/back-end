@@ -584,38 +584,6 @@
     (49,11,62.0,'MEDIO','ACCEPTED'),
     (50,12,43.0,'BAIXO','PENDING');
 
-    INSERT INTO candidate_match (fk_candidate, fk_vacancy, score, match_level, candidate_status) VALUES
-    (82, 21, 78.0, 'ALTO', 'PENDING'),
-    (83, 22, 80.0, 'ALTO', 'PENDING'),
-    (84, 23, 77.0, 'ALTO', 'PENDING'),
-    (85, 24, 79.0, 'ALTO', 'PENDING'),
-    (86, 25, 81.0, 'ALTO', 'PENDING'),
-    (87, 21, 76.0, 'ALTO', 'PENDING'),
-    (88, 22, 78.0, 'ALTO', 'PENDING'),
-    (89, 23, 80.0, 'ALTO', 'PENDING'),
-    (90, 24, 77.0, 'ALTO', 'PENDING'),
-    (91, 25, 79.0, 'ALTO', 'PENDING'),
-    (92, 21, 81.0, 'ALTO', 'PENDING'),
-    (93, 22, 76.0, 'ALTO', 'PENDING'),
-    (94, 23, 78.0, 'ALTO', 'PENDING'),
-    (95, 24, 80.0, 'ALTO', 'PENDING'),
-    (96, 25, 77.0, 'ALTO', 'PENDING'),
-    (97, 21, 79.0, 'ALTO', 'PENDING'),
-    (98, 22, 81.0, 'ALTO', 'PENDING'),
-    (99, 23, 76.0, 'ALTO', 'PENDING'),
-    (100, 24, 78.0, 'ALTO', 'PENDING'),
-    (101, 25, 80.0, 'ALTO', 'PENDING'),
-    (102, 21, 77.0, 'ALTO', 'PENDING'),
-    (103, 22, 79.0, 'ALTO', 'PENDING'),
-    (104, 23, 81.0, 'ALTO', 'PENDING'),
-    (105, 24, 76.0, 'ALTO', 'PENDING'),
-    (106, 25, 78.0, 'ALTO', 'PENDING'),
-    (107, 21, 80.0, 'ALTO', 'PENDING'),
-    (108, 22, 77.0, 'ALTO', 'PENDING'),
-    (109, 23, 79.0, 'ALTO', 'PENDING'),
-    (110, 24, 81.0, 'ALTO', 'PENDING'),
-    (111, 25, 76.0, 'ALTO', 'PENDING');
-
     -- ===========================
     -- Inserir candidatos novos
     -- ===========================
@@ -720,32 +688,6 @@
     (109, 23, 79.0, 'ALTO', 'PENDING'),
     (110, 24, 81.0, 'ALTO', 'PENDING'),
     (111, 25, 76.0, 'ALTO', 'PENDING');
-
-
-    -- ===========================
-    -- Inserir 20 registros ALTO para TI
-    -- ===========================
-    INSERT INTO candidate_match (fk_candidate, fk_vacancy, score, match_level, candidate_status) VALUES
-    (112, 1, 85.0, 'ALTO', 'PENDING'),
-    (113, 2, 88.0, 'ALTO', 'PENDING'),
-    (114, 3, 87.0, 'ALTO', 'PENDING'),
-    (115, 4, 90.0, 'ALTO', 'PENDING'),
-    (116, 5, 86.0, 'ALTO', 'PENDING'),
-    (117, 1, 89.0, 'ALTO', 'PENDING'),
-    (118, 2, 87.5, 'ALTO', 'PENDING'),
-    (119, 3, 88.0, 'ALTO', 'PENDING'),
-    (120, 4, 85.5, 'ALTO', 'PENDING'),
-    (121, 5, 90.0, 'ALTO', 'PENDING'),
-    (122, 1, 86.0, 'ALTO', 'PENDING'),
-    (123, 2, 89.0, 'ALTO', 'PENDING'),
-    (124, 3, 87.0, 'ALTO', 'PENDING'),
-    (125, 4, 88.5, 'ALTO', 'PENDING'),
-    (126, 5, 86.0, 'ALTO', 'PENDING'),
-    (127, 1, 90.0, 'ALTO', 'PENDING'),
-    (128, 2, 85.5, 'ALTO', 'PENDING'),
-    (129, 3, 87.0, 'ALTO', 'PENDING'),
-    (130, 4, 88.0, 'ALTO', 'PENDING'),
-    (131, 5, 89.5, 'ALTO', 'PENDING');
 
     -- ===========================================
     -- Criar candidatos TI (112 a 131)
