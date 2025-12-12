@@ -32,8 +32,10 @@ interface VacancyRepository : JpaRepository<Vacancy, Int> {
         v.location,
         v.area,
         v.openingJustification,
-        v.statusVacancy
+        v.statusVacancy,
+        m.name
     FROM Vacancy v
+    JOIN v.manager m
     WHERE v.statusVacancy = 'pendente_aprovacao'
 """)
     fun findOpeningVacancies(): List<Array<Any?>>
