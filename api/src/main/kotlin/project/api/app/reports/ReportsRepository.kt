@@ -72,13 +72,10 @@ GROUP BY v.area;""")
     fun graficoDeBarrasDeTaxaDeContratacaoPorArea() =
         em.createNativeQuery("""SELECT 
     v.area,
-    -- Total de currículos relacionados à área (baseado em candidate_match)
-    COUNT(cm.fk_candidate) AS total_candidatos, 
-    -- Total de candidatos aceitos
-    SUM(CASE WHEN cm.candidate_status = 'DESTAQUE' THEN 1 ELSE 0 END) AS total_contratados,
-    -- Taxa %
+    COUNT(cm.fk_candidate) AS total_candidatos,
+    SUM(CASE WHEN cm.match_level = 'DESTAQUE' THEN 1 ELSE 0 END) AS total_contratados,
     ROUND(
-        (SUM(CASE WHEN cm.candidate_status = 'DESTAQUE' THEN 1 ELSE 0 END) 
+        (SUM(CASE WHEN cm.match_level = 'DESTAQUE' THEN 1 ELSE 0 END) 
         / COUNT(cm.fk_candidate)) * 100,
         2
     ) AS taxa_contratacao

@@ -77,7 +77,7 @@
 
     ('Designer UX', 'Integral', 'híbrido', 'CLT', 5000, 'São Paulo', 'Figma, UX Research', NULL, 2, 'Marketing', 'APROVADA'),
 
-    ('Assistente RH JR', 'Diurno', 'presencial', 'CLT', 2500, 'São Paulo', 'Pacote Office', NULL, 3, 'RH', 'REJEITADA');
+    ('Assistente RH JR', 'Diurno', 'presencial', 'CLT', 2500, 'São Paulo', 'Pacote Office', NULL, 3, 'RH', 'APROVADA');
 
 
     -- ===========================================
@@ -298,24 +298,24 @@
     VALUES
     ('Analista Marketing JR', 'Diurno', 'híbrido', 'CLT', 4000, 'São Paulo', 'SEO, Ads', NULL, 2, 'Marketing', 'ABERTA'),
     ('Coordenador RH', 'Diurno', 'presencial', 'CLT', 7000, 'São Paulo', 'Gestão de pessoas', NULL, 3, 'RH', 'APROVADA'),
-    ('Analista Financeiro JR', 'Diurno', 'remoto', 'CLT', 4000, 'São Paulo', 'Excel, Power BI', NULL, 7, 'Financeiro', 'ABERTA'),
-    ('Assistente Marketing', 'Integral', 'híbrido', 'CLT', 3500, 'São Paulo', 'Social Media, Copywriting', NULL, 2, 'Marketing', 'ABERTA'),
-    ('Estagiário Financeiro', 'Diurno', 'presencial', 'CLT', 1800, 'São Paulo', 'ERP, Excel', NULL, 11, 'Financeiro', 'ABERTA'),
-    ('Analista RH Pleno', 'Diurno', 'presencial', 'CLT', 5000, 'São Paulo', 'Recrutamento e Seleção', NULL, 3, 'RH', 'ABERTA'),
-    ('Marketing Digital JR', 'Integral', 'remoto', 'CLT', 4000, 'Rio de Janeiro', 'SEO, Ads', NULL, 2, 'Marketing', 'ABERTA'),
-    ('Financeiro Pleno', 'Diurno', 'híbrido', 'CLT', 6000, 'São Paulo', 'ERP, Contabilidade', NULL, 7, 'Financeiro', 'ABERTA'),
-    ('RH Assistente JR', 'Diurno', 'presencial', 'CLT', 2800, 'São Paulo', 'Excel, Atendimento', NULL, 3, 'RH', 'ABERTA'),
-    ('Coordenador Marketing', 'Integral', 'híbrido', 'CLT', 7500, 'Rio de Janeiro', 'Gestão de campanhas', NULL, 2, 'Marketing', 'ABERTA'),
-    ('Analista Financeiro Pleno', 'Diurno', 'presencial', 'CLT', 5500, 'São Paulo', 'ERP, Excel', NULL, 7, 'Financeiro', 'ABERTA'),
-    ('RH Pleno', 'Diurno', 'presencial', 'CLT', 5200, 'São Paulo', 'Treinamento, Seleção', NULL, 3, 'RH', 'ABERTA'),
-    ('Marketing Estratégico', 'Integral', 'híbrido', 'CLT', 6800, 'São Paulo', 'Planejamento, SEO', NULL, 2, 'Marketing', 'ABERTA'),
-    ('Financeiro Senior', 'Diurno', 'remoto', 'CLT', 9000, 'São Paulo', 'ERP, Contabilidade', NULL, 7, 'Financeiro', 'ABERTA'),
-    ('Assistente RH Pleno', 'Diurno', 'presencial', 'CLT', 3500, 'São Paulo', 'Excel, Atendimento', NULL, 3, 'RH', 'ABERTA'),
-    ('Marketing Analyst', 'Integral', 'remoto', 'CLT', 4200, 'Rio de Janeiro', 'SEO, Ads', NULL, 2, 'Marketing', 'ABERTA'),
-    ('Financeiro Junior', 'Diurno', 'híbrido', 'CLT', 3700, 'São Paulo', 'ERP, Excel', NULL, 7, 'Financeiro', 'ABERTA'),
-    ('RH Junior', 'Diurno', 'presencial', 'CLT', 2800, 'São Paulo', 'Atendimento, Excel', NULL, 3, 'RH', 'ABERTA'),
-    ('Marketing Pleno', 'Integral', 'híbrido', 'CLT', 5000, 'São Paulo', 'Google Ads, Social Media', NULL, 2, 'Marketing', 'ABERTA'),
-    ('Financeiro Analyst', 'Diurno', 'remoto', 'CLT', 4500, 'São Paulo', 'ERP, Power BI', NULL, 7, 'Financeiro', 'ABERTA');
+    ('Analista Financeiro JR', 'Diurno', 'remoto', 'CLT', 4000, 'São Paulo', 'Excel, Power BI', NULL, 7, 'Financeiro', 'APROVADA'),
+    ('Assistente Marketing', 'Integral', 'híbrido', 'CLT', 3500, 'São Paulo', 'Social Media, Copywriting', NULL, 2, 'Marketing', 'APROVADA'),
+    ('Estagiário Financeiro', 'Diurno', 'presencial', 'CLT', 1800, 'São Paulo', 'ERP, Excel', NULL, 11, 'Financeiro', 'APROVADA'),
+    ('Analista RH Pleno', 'Diurno', 'presencial', 'CLT', 5000, 'São Paulo', 'Recrutamento e Seleção', NULL, 3, 'RH', 'APROVADA'),
+    ('Marketing Digital JR', 'Integral', 'remoto', 'CLT', 4000, 'Rio de Janeiro', 'SEO, Ads', NULL, 2, 'Marketing', 'APROVADA'),
+    ('Financeiro Pleno', 'Diurno', 'híbrido', 'CLT', 6000, 'São Paulo', 'ERP, Contabilidade', NULL, 7, 'Financeiro', 'APROVADA'),
+    ('RH Assistente JR', 'Diurno', 'presencial', 'CLT', 2800, 'São Paulo', 'Excel, Atendimento', NULL, 3, 'RH', 'APROVADA'),
+    ('Coordenador Marketing', 'Integral', 'híbrido', 'CLT', 7500, 'Rio de Janeiro', 'Gestão de campanhas', NULL, 2, 'Marketing', 'APROVADA'),
+    ('Analista Financeiro Pleno', 'Diurno', 'presencial', 'CLT', 5500, 'São Paulo', 'ERP, Excel', NULL, 7, 'Financeiro', 'APROVADA'),
+    ('RH Pleno', 'Diurno', 'presencial', 'CLT', 5200, 'São Paulo', 'Treinamento, Seleção', NULL, 3, 'RH', 'APROVADA'),
+    ('Marketing Estratégico', 'Integral', 'híbrido', 'CLT', 6800, 'São Paulo', 'Planejamento, SEO', NULL, 2, 'Marketing', 'APROVADA'),
+    ('Financeiro Senior', 'Diurno', 'remoto', 'CLT', 9000, 'São Paulo', 'ERP, Contabilidade', NULL, 7, 'Financeiro', 'APROVADA'),
+    ('Assistente RH Pleno', 'Diurno', 'presencial', 'CLT', 3500, 'São Paulo', 'Excel, Atendimento', NULL, 3, 'RH', 'APROVADA'),
+    ('Marketing Analyst', 'Integral', 'remoto', 'CLT', 4200, 'Rio de Janeiro', 'SEO, Ads', NULL, 2, 'Marketing', 'APROVADA'),
+    ('Financeiro Junior', 'Diurno', 'híbrido', 'CLT', 3700, 'São Paulo', 'ERP, Excel', NULL, 7, 'Financeiro', 'APROVADA'),
+    ('RH Junior', 'Diurno', 'presencial', 'CLT', 2800, 'São Paulo', 'Atendimento, Excel', NULL, 3, 'RH', 'APROVADA'),
+    ('Marketing Pleno', 'Integral', 'híbrido', 'CLT', 5000, 'São Paulo', 'Google Ads, Social Media', NULL, 2, 'Marketing', 'APROVADA'),
+    ('Financeiro Analyst', 'Diurno', 'remoto', 'CLT', 4500, 'São Paulo', 'ERP, Power BI', NULL, 7, 'Financeiro', 'APROVADA');
 
 
     INSERT INTO candidate (id_candidate, name, birth, phone_number, email, state, education, skills, experience) VALUES
